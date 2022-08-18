@@ -1,0 +1,3 @@
+const BASE_URL=' http://43.138.182.103:8888'
+const BASE_TIME=3000
+export {BASE_URL,BASE_TIME}
