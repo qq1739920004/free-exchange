@@ -25,8 +25,8 @@ class KRLrequest{
     //响应拦截
     this.instance.interceptors.response.use(
       (res:AxiosResponse)=>{
-        console.log('我是全局响应拦截器');
-        return res
+        if(res.statusText!='OK') return
+        return res.data
       },(err:any)=>{
         console.log('请求出现错误');
       }

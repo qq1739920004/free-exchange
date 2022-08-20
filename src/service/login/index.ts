@@ -13,9 +13,12 @@ class loginService{
       url:loginPath.login,
       method:'post',
       data:userData,
-      isLoding:true,
-      interceptor:{
+      // isLoding:true,
+     interceptor:{
         responseInterceptorLaunch:(res:any)=>{
+          if(res.token){
+            localStorage.setItem('token',res.token)
+          }
          return res
         }
       }

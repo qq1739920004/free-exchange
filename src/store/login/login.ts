@@ -10,9 +10,15 @@ export const loginStore = {
     }
   },
   actions: {
+    //登录接口
     async login(userData: userDataType) {
       const result = await loginService.login(userData)
       console.log(result);
+      return result
+    },
+    async register(userData:userDataType){
+      const result =await loginService.register(userData)
+      return result
     }
   }
 }
