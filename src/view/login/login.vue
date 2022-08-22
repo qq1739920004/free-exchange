@@ -38,7 +38,7 @@ import lform from './components/lform.vue'
 let activeName = ref<optionTag>('login')
 const router = useRouter()
 function loginChange() {
-  router.push('/home')
+  router.push('/free')
 }
 </script>
 

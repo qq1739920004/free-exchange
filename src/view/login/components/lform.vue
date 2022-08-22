@@ -28,14 +28,14 @@
 <script setup lang="ts">
 import { ref, reactive, defineProps, defineEmits } from 'vue'
 import { rules, submitForm } from './ruleConfig'
-import { loginStore } from '@/store/login/login'
+import { login } from '@/store/login/login'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import type { FormInstance, FormRules } from 'element-plus'
 
 const emit = defineEmits(['loginChange'])
 const ruleFormRef = ref<FormInstance>()
-
+const loginStore=login()
 const props = defineProps({
   butInfo: String
 })
@@ -52,7 +52,7 @@ function startLogin(ruleFormRef: FormInstance | undefined) {
     if (props.butInfo === '登录') {
      loginStart()
     } else if (props.butInfo === '注册') {
-      loginStore.actions.register(userDate).then((result) => {
+      loginStore.register(userDate).then((result) => {
         if (!result) {
           ElMessage({
             type: 'error',
@@ -72,7 +72,7 @@ function startLogin(ruleFormRef: FormInstance | undefined) {
 
 //登录的方法
 function loginStart(){
-   loginStore.actions.login(userDate).then((result) => {
+   loginStore.login(userDate).then((result) => {
         if (!result) {
           ElMessage({
             type: 'error',
@@ -81,6 +81,7 @@ function loginStart(){
         } else {
           //保存token
           emit('loginChange')
+
           ElMessage({
             type: 'success',
             message: `欢迎您来到free社区~`

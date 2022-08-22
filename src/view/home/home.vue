@@ -1,23 +1,34 @@
 <template>
   <div class="home">
-    <el-button type="primary">Primary</el-button>
-    <h1>我是首页</h1>
-
-    <el-icon><iphone /></el-icon>
-    <Edit style="width: 1em; height: 1em; margin-right: 8px" />
+    <lheader></lheader>
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
-const router = useRouter()
-if (!localStorage.getItem('token')) {
-  router.push('/login')
+import lheader from './components/header.vue' //首页头
+import {home} from '@/store/home/home';
+import {login} from '@/store/login/login';
+import type { pageType } from '@/service/home/type'
+import { reactive } from 'vue';
+
+const homeStore=home()
+const loginStore=login()
+const pageInfo=reactive<pageType>({
+  start:0,
+  end:10
+})
+lcreate()
+function lcreate() {
+  homeStore.getsMoment(pageInfo)
+  // loginStore.isLogin()
 }
 </script>
 
 <style scoped>
-.home{
+.home {
   background-color: rgb(244, 245, 245);
+  width: 100%;
+  height: 100%;
 }
 </style>

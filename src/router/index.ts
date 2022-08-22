@@ -5,12 +5,16 @@ import type { RouteRecordRaw } from 'vue-router'
 const routes:RouteRecordRaw[]=[
   {
     path:'/',
-    redirect:'/home'
+    redirect:'/free'
   },
   {
-    path:'/home',
-    name:'home',
-    component:()=>import('@/view/home/home.vue')
+    path:'/free',
+    name:'free',
+    component:()=>import('@/view/home/home.vue'),
+    children:[
+      {path:'',component:()=>import('@/view/home/main/content/content.vue')},
+      {path:'create',component:()=>import('@/view/home/main/createMoment/create.vue')}
+    ]
   },
   {
     path:'/login',
@@ -23,7 +27,15 @@ const router=createRouter({
   routes,
   history:createWebHashHistory()
 })
+router.beforeEach((to)=>{
+  if(to.name!='login' && to.path!='/free'){
+    console.log(22222222);
+    if (!localStorage.getItem('token')) {
+      return { name: 'login' }
+    }
+  }
 
+})
 export {
   router
 }

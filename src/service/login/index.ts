@@ -1,7 +1,7 @@
 import {krlrequest} from '../index';
 
 import {userDataType} from './type';
-
+import {userInfoType} from '@/store/login/types';
 enum loginPath{
   login='/login',
   register='/users',
@@ -17,7 +17,9 @@ class loginService{
      interceptor:{
         responseInterceptorLaunch:(res:any)=>{
           if(res.token){
-            localStorage.setItem('token',res.token)
+            const {id,name,token}=res
+            localStorage.setItem('token',token)
+            localStorage.setItem('user',JSON.stringify({id,name}))
           }
          return res
         }
@@ -31,11 +33,10 @@ class loginService{
       data:userData
     })
   }
-  isLogin(userData:userDataType){
-    return krlrequest.request({
-      url:loginPath.register,
-      method:'post',
-      data:userData
+  isLogin(){
+    return krlrequest.request<userInfoType>({
+      url:loginPath.isLogin,
+      method:'get',
     })
   }
 

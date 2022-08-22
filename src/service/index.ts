@@ -7,6 +7,12 @@ const krlrequest=new KRLrequest({
   timeout:BASE_TIME,
   interceptor:{
     requestInterceptorLaunch:((config:KRLconfig)=>{
+      const token=localStorage.getItem('token')
+      if(token){
+        if(config.headers){
+          config.headers.Authorization=token
+        }
+      }
       return config
     })
   }
