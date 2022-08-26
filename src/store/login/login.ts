@@ -22,9 +22,13 @@ export const login = defineStore('login',{
     },
      //查看用户是否登录
      async isLogin(){
-      const result=await loginService.isLogin()
       const token=localStorage.getItem('token')
+      let result
       if(token){
+        result=await loginService.isLogin()
+        if(!result){
+          return false
+        }
         this.userInfo={...result,token}
       }
       return result

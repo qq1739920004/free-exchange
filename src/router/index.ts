@@ -29,7 +29,6 @@ const router=createRouter({
 })
 router.beforeEach((to)=>{
   if(to.name!='login' && to.path!='/free'){
-    console.log(22222222);
     if (!localStorage.getItem('token')) {
       return { name: 'login' }
     }

@@ -11,17 +11,22 @@ import {home} from '@/store/home/home';
 import {login} from '@/store/login/login';
 import type { pageType } from '@/service/home/type'
 import { reactive } from 'vue';
+import {useRouter} from 'vue-router';
 
 const homeStore=home()
 const loginStore=login()
+const router=useRouter()
 const pageInfo=reactive<pageType>({
   start:0,
   end:10
 })
 lcreate()
-function lcreate() {
+async function lcreate() {
   homeStore.getsMoment(pageInfo)
-  // loginStore.isLogin()
+  const res=await loginStore.isLogin()
+  if(!res){
+    router.push('/login')
+  }
 }
 </script>
 

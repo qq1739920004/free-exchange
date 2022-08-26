@@ -16,7 +16,6 @@ class KRLrequest{
     //请求拦截
     this.instance.interceptors.request.use(
       (config:KRLconfig)=>{
-        console.log('我是全局请求拦截器');
         return config
       },(err:any)=>{
         console.log('请求出现错误');
@@ -58,7 +57,6 @@ class KRLrequest{
         res=config.interceptor.responseInterceptorLaunch(res)
       }
       if (config.isLoding === true) {
-        console.log(22222222);
         setTimeout(() => {
           Loading.close()
         }, 3000)
