@@ -1,18 +1,26 @@
 <template>
   <div class="content">
-<h1>我是首页的主体内容</h1>
-<h2>lalaaalalaaaaaaaa</h2>
+    <nav-top></nav-top>
+    <mainContent/>
   </div>
 </template>
 
 <script setup lang="ts">
-
+import navTop from './components/navTop.vue';
+import mainContent from './components/mainContent.vue';
 </script>
 
-<style scoped>
+<style scoped lang="less">
 @media (max-width:920px) {
   .content{
     width: 920px;
   }
+
 }
+.content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 </style>

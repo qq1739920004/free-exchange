@@ -1,6 +1,6 @@
 import {krlrequest} from '../index';
 import {createType,pageType} from './type';
-
+import {getmoments} from '@/store/home/types';
 enum homePath{
   createdMoment='/moment',//创建动态
   getsMoment='/moment',//查看多条动态
@@ -15,7 +15,7 @@ class homeService{
     })
   }
   getsMoment(page:pageType){
-    return krlrequest.request({
+    return krlrequest.request<getmoments[]>({
       url:homePath.getsMoment,
       method:'get',
       params:page

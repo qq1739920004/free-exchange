@@ -4,6 +4,7 @@ enum labelPath{
   createdMoment='/label/category',//查看所有主标签
 }
 class labelService{
+//查看所有主标签
   lookMainLabel(){
     return krlrequest.request<mainLabelType[]>({
       url:labelPath.createdMoment,
