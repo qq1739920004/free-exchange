@@ -5,5 +5,6 @@ export interface createType{
 }
 export interface pageType{
   start:number,
-  end:number
+  end:number,
+  category?:string | number
 }

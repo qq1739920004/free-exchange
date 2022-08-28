@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
       <div class="navbox">
-        <span :class="['item',labelIndex===index?'itemActive':'noActive']" v-for="(item,index) in labels" :key="item.name" @click="labelAcitive(index)">{{item.name}}</span>
+        <span :class="['item',labelIndex===index?'itemActive':'noActive']" v-for="(item,index) in labels" :key="item.name" @click="labelAcitive(index,item.name)">{{item.name}}</span>
       </div>
     </div>
 </template>
@@ -10,16 +10,46 @@
 import {ref} from 'vue';
 import {label} from '@/store/label/label';
 import {mainLabelType} from '@/store/label/types';
-  const labelStore=label()
+import {home} from '@/store/home/home';
+import {pageType} from '@/service/home/type';
+import {getmoments} from '@/store/home/types';
+//1.请求标签
+ const labelStore=label()
   const labels=ref<mainLabelType[]>()
   const labelIndex=ref(0)
   labelStore.lookMainLabel().then((res)=>{
     labels.value=res
 
   })
+
+//2.请求动态的代码
+  const homeStore=home()
+  const pageInfo=ref<pageType>({
+    start:0,
+    end:10,
+    category:0
+  })
+  const result=ref<getmoments[]>()
+  function getsMoment(category?:string | number=0){
+      pageInfo.value.category=category
+      homeStore.getsMoment(pageInfo.value).then(res=>{
+      result.value=res
+      console.log(result.value);
+      })
+  }
+  //第一次调用请求推荐的动态
+getsMoment()
+
+
   //点击主标签
-  function labelAcitive(index:number){
+  function labelAcitive(index:number,name:string){
     labelIndex.value=index
+    if(index){
+      getsMoment(name)
+    }
+    else{
+      getsMoment()
+    }
   }
 </script>
 
@@ -33,7 +63,7 @@ import {mainLabelType} from '@/store/label/types';
     justify-content: center;
     .navbox{
       width: 100%;
-      max-width: 1200px;
+      max-width: 1300px;
       display: flex;
       justify-content: start;
       align-items: center;
