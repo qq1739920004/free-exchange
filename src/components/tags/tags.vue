@@ -1,6 +1,6 @@
 <template>
   <div class="tags">
-    <h4>文章子标签</h4>
+    <h4 class="h4">文章子标签</h4>
     <el-tag
       v-for="tag in dynamicTags"
       :key="tag"
@@ -36,7 +36,6 @@
 import {defineProps,withDefaults,ref,defineEmits,nextTick,watch} from 'vue';
 import { ElInput } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { h } from 'vue'
 const InputRef = ref<InstanceType<typeof ElInput>>()
 const inputValue = ref('')
 const inputVisible = ref(false)
@@ -75,7 +74,6 @@ const showInput = () => {
 }
 const handleClose = (tag: string) => {
   dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
-  console.log(dynamicTags.value);
 }
 const handleInputConfirm = () => {
   if (inputValue.value) {
@@ -92,5 +90,8 @@ const handleInputConfirm = () => {
 }
 .w-20{
   width: 80px;
+}
+.h4{
+  margin-top: 0px;
 }
 </style>

@@ -10,6 +10,7 @@ export interface getmoments{
   ct: string;
   createAt: string;
   updateAt: string;
+  mainLabel?:string
   user: User;
   comentCount: number;
   labelCount: number;
@@ -17,4 +18,5 @@ export interface getmoments{
   collectionCount: number;
   label?: string[];
   images?: string[];
+  cover?:string
 }

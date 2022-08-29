@@ -7,6 +7,7 @@ import {label} from '@/store/label/label';
   const optionPurify=ref<optionType[]>([])
   labelStore.lookMainLabel().then((res)=>{
     labelStore.mainLabel.forEach((item)=>{
+      if(item.name=='综合推荐') return
       optionPurify.value.push({title:item.name,value:item.name})
     })
   })
@@ -20,6 +21,12 @@ import {label} from '@/store/label/label';
     options: optionPurify.value,
     placeholder: '您的文章要在哪个板块展示'
   },
+  {
+    type: 'upload',
+    field: 'file',
+    id:2,
+    label: '上传文章封面',
+  }
 ]
 
 const formData=ref<any>({})

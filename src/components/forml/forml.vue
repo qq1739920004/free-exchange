@@ -7,6 +7,9 @@
   <template v-for="item in props.formLabelAlign" :key="item.id">
     <el-form-item    label-position="right"
  :label="item.label+':'">
+ <template v-if="item.type=='upload'">
+      <upload-picture url="http://43.138.182.103:8888/upload/temp/picture/cover"></upload-picture>
+    </template>
     <template v-if="item.type=='input'">
       <el-input  :placeholder="item.placeholder" v-model="formData[`${item.field}`]" />
     </template>
@@ -24,9 +27,11 @@
           >
           </el-option>
         </el-select>
-    </template>
+    </template >
+
 
     </el-form-item>
+
   </template>
 
   </el-form>
@@ -36,6 +41,7 @@
 <script setup lang="ts">
 import {defineProps,withDefaults,ref,defineEmits,watchEffect,watch} from 'vue';
 import {LFromItem} from './types';
+import uploadPicture from '@/components/uploadPicture/uploadPicture.vue'
 interface Props{
   formLabelAlign:LFromItem[]
   formData:any
@@ -55,6 +61,7 @@ let formData = ref({ ...props.formData })
         deep: true
       }
     )
+
 </script>
 
 <style scoped>

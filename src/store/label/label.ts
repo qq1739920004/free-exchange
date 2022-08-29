@@ -9,7 +9,7 @@ export const label = defineStore('label',{
     }
   },
   actions: {
-    //登录接口
+   //查看所有主标签
     async lookMainLabel() {
       const result = await labelService.lookMainLabel()
       this.mainLabel=result

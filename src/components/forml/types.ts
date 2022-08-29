@@ -13,7 +13,7 @@ export interface optionType {
   title:string,
   value:string
 }
-type LFromType = 'input' | 'passWord' | 'select' | 'datepicker'
+type LFromType = 'input' | 'passWord' | 'select' | 'datepicker' |'upload'
 type LField =
   | 'name'
   | 'password'
@@ -31,6 +31,7 @@ type LField =
   | 'leader'
   | 'parentId'
   | 'mainLabel'
+  | 'file'
 
   export interface LFromConfig {
     fromItem: LFromItem[]

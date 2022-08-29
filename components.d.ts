@@ -22,10 +22,12 @@ declare module '@vue/runtime-core' {
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     Forml: typeof import('./src/components/forml/forml.vue')['default']
     Ldialog: typeof import('./src/components/ldialog/ldialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Tags: typeof import('./src/components/tags/tags.vue')['default']
+    UploadPicture: typeof import('./src/components/uploadPicture/uploadPicture.vue')['default']
   }
 }

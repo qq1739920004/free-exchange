@@ -17,7 +17,7 @@
       <el-button type="danger" @click="deleteAll" class="but">清空编辑</el-button>
       <!-- 发表文章的逻辑 -->
     </div>
-      <ldialog @commit-from="commitFrom" :formLabelAlign="formLabelAlign" :isdynamicTags="true"  v-model:dynamic-tags="dynamicTags" v-model:dialog-visible="dialogVisible"   v-model:form-data="formData" h="发表文章"></ldialog>
+      <ldialog v-if="isReset" @commit-from="commitFrom" :formLabelAlign="formLabelAlign" :isdynamicTags="true"  v-model:dynamic-tags="dynamicTags" v-model:dialog-visible="dialogVisible"   v-model:form-data="formData" h="发表文章"></ldialog>
 
   </div>
 </template>
@@ -77,8 +77,11 @@ let {isHome,textValue}=storeToRefs(createMStore)
       })
     })
 }
+//控制销毁表单属性value的变量
+const isReset=ref<boolean>(false)
 //点击发表文章触发
 async function publish(){
+  isReset.value=true
  await createMStore.getTemp()
   if(createMInfo.value.title.length<8){
     ElMessage({
@@ -99,14 +102,14 @@ async function publish(){
 
 }
 
+//伪动态转正
 async function commitFrom(){
     await createMStore.tempBecome(createMInfo.value.id,formData.value,Object.values(dynamicTags.value))
     localStorage.removeItem('tempId')
     router.push('/free')
-    console.log(formData.value);
-    console.log(dynamicTags.value);
-
-
+    isReset.value=false
+    formData.value={}
+    dynamicTags.value=[]
 }
 </script>
 

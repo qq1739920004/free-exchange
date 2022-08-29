@@ -1,7 +1,7 @@
 <template>
   <div class="nav">
       <div class="navbox">
-        <span :class="['item',labelIndex===index?'itemActive':'noActive']" v-for="(item,index) in labels" :key="item.name" @click="labelAcitive(index,item.name)">{{item.name}}</span>
+        <span :class="['item','animate__animated',labelIndex===index?'itemActive':'noActive']" v-for="(item,index) in labels" :key="item.name" @click="labelAcitive(index,item.name)">{{item.name}}</span>
       </div>
     </div>
 </template>
@@ -12,6 +12,7 @@ import {label} from '@/store/label/label';
 import {mainLabelType} from '@/store/label/types';
 import {home} from '@/store/home/home';
 import {pageType} from '@/service/home/type';
+import 'animate.css'
 import {getmoments} from '@/store/home/types';
 //1.请求标签
  const labelStore=label()
@@ -30,7 +31,7 @@ import {getmoments} from '@/store/home/types';
     category:0
   })
   const result=ref<getmoments[]>()
-  function getsMoment(category?:string | number=0){
+  function getsMoment(category:string | number=0){
       pageInfo.value.category=category
       homeStore.getsMoment(pageInfo.value).then(res=>{
       result.value=res
@@ -56,6 +57,7 @@ getsMoment()
 <style scoped lang="less">
 .nav{
   border-top: 1px solid #f5f5f5;
+  border-bottom: 5px solid #f5f5f5;
     height: 40px;
     width: 100%;
     background-color: white;
@@ -77,8 +79,11 @@ getsMoment()
       cursor: pointer;
 
     }
+
     .noActive:hover{
-        color: #007fff;
+      color: #007fff;
+      animation: jello .8s;
+
       }
     .itemActive{
        color: #007fff;

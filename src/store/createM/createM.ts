@@ -52,8 +52,10 @@ export const createM = defineStore('createM', {
     //伪动态转真动态
     async tempBecome(tempId:string|number,mainInfo:mainLabelType,labels:string[]){
       const result=await createMService.tempBecome(tempId,mainInfo)
-      console.log(result,labels);
-      const result2=await createMService.addLabel(result,{label:labels})
+      console.log(labels);
+      if(labels.length){
+        await createMService.addLabel(result,{label:labels})
+      }
     },
   //给动态添加标签
   // async addLabel(label){
