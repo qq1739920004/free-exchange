@@ -40,3 +40,7 @@ export function timePurify(time:string){
 
 
 }
+export function timePurify2(time:string,format:string){
+  const timedate=dayjs(time).format(format);
+  return timedate
+}

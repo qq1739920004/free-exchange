@@ -13,7 +13,9 @@ const routes:RouteRecordRaw[]=[
     component:()=>import('@/view/home/home.vue'),
     children:[
       {path:'',component:()=>import('@/view/home/main/content/content.vue')},
-      {path:'create',component:()=>import('@/view/home/main/createMoment/create.vue')}
+      {path:'create',component:()=>import('@/view/home/main/createMoment/create.vue')},
+      {path:'moment/:momentId',component:()=>import('@/view/home/main/moment/moment.vue')}
+
     ]
   },
   {

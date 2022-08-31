@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
-    "@wangeditor/editor": "^5.1.14",
+    "@wangeditor/editor": "^5.1.15",
     "@wangeditor/editor-for-vue": "^5.1.12",
     "animate.css": "^4.1.1",
     "axios": "^0.27.2",

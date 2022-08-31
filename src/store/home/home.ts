@@ -24,6 +24,16 @@ export const home = defineStore('home',{
       }
 
     },
+    //点赞动态
+  async startGive(momentId:number|string){
+    const result=await homeService.startGive(momentId)
+    return result
+  },
+  //收藏动态
+  async startCollection(momentId:number|string){
+    const result=await homeService.startCollection(momentId)
+    return result
+  }
 
     }
 }

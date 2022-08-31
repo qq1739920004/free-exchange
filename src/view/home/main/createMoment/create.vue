@@ -122,7 +122,7 @@ function titleChange(this:any){
 }
 
 #editor-toolbar {
-  width: 1350px;
+  width: 1200px;
   background-color: #fcfcfc;
   margin: 0 auto;
 }

@@ -8,6 +8,8 @@ export interface getmoments{
   id: number;
   title: string;
   ct: string;
+  isCollection?:string | number;
+  isGive?:string | number;
   createAt: string;
   updateAt: string;
   mainLabel?:string
@@ -18,5 +20,6 @@ export interface getmoments{
   collectionCount: number;
   label?: string[];
   images?: string[];
-  cover?:string
+  cover?:string;
+  content?:string
 }

@@ -7,9 +7,7 @@
   <template v-for="item in props.formLabelAlign" :key="item.id">
     <el-form-item    label-position="right"
  :label="item.label+':'">
- <template v-if="item.type=='upload'">
-      <upload-picture url="http://43.138.182.103:8888/upload/temp/picture/cover"></upload-picture>
-    </template>
+
     <template v-if="item.type=='input'">
       <el-input  :placeholder="item.placeholder" v-model="formData[`${item.field}`]" />
     </template>
@@ -28,7 +26,12 @@
           </el-option>
         </el-select>
     </template >
-
+    <template v-if="item.type=='textarea'">
+      <el-input  :placeholder="item.placeholder" minlength="30" maxlength="200" :autosize="{ minRows: 5}" show-word-limit type="textarea" v-model="formData[`${item.field}`]" />
+    </template>
+    <template v-if="item.type=='upload'">
+      <upload-picture url="http://43.138.182.103:8888/upload/temp/picture/cover"></upload-picture>
+    </template>
 
     </el-form-item>
 

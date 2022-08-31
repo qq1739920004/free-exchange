@@ -26,6 +26,11 @@ import {label} from '@/store/label/label';
     field: 'file',
     id:2,
     label: '上传文章封面',
+  },{
+    type:'textarea',
+    field:'digest',
+    id:3,
+    label:'文章摘要'
   }
 ]
 

@@ -73,10 +73,17 @@ let dynamicTags = ref([ ...props.dynamicTags ])
       }
     )
 function commitFrom(){
-  if(!formData.value.mainLabel){
+  console.log(formData.value.digest );
+  if(!formData.value.mainLabel || !formData.value.digest){
      ElMessage({
         type: 'error',
         message: '请填写完信息',
+      })
+  }
+  else if(formData.value.digest.length<30){
+    ElMessage({
+        type: 'error',
+        message: '文章摘要至少要30字',
       })
   }
   else{

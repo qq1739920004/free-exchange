@@ -22,5 +22,11 @@ module.exports = {
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "prettier/prettier": "off",
+    "vue/comment-directive":"off",
+    "no-undef":"off",
+    "no-useless-escape":"off",
+    "no-control-regex":"off",
+    "no-prototype-builtins":"off",
+    "no-cond-assign":"off"
   },
 };

@@ -1,28 +1,71 @@
 <template>
 <div class="moment">
   <nav class="header"><span :class="['navItem',isActive==='推荐'?'itemActive':'']"  @click="recommend">推荐</span><span :class="['navItem',isActive==='最新'?'itemActive':'']" @click="newest">最新</span></nav>
-  <div v-for="item in momentsInfo" :key="item.id" class="item" >
+  <div @click="goMoment(item.id,index)" v-for="(item,index) in momentsInfo" :key="item.id" class="item" >
     <div class="content">
       <div class="moment-header">
-        <span class="name">{{item.user.name}}</span>
-        <span>{{timePurify(item.createAt)}}</span>
-        <span>{{item.mainLabel}}</span>
-        <p class="label"><el-tag class="tag" type='info' round size="small" v-for="item2 in item.label" :key="item2">{{item2}}</el-tag></p>
+        <span class="name" v-if="item.user.name">{{item.user.name}}</span>
+        <span v-if="item.createAt">{{timePurify(item.createAt)}}</span>
+        <span v-if="item.mainLabel">{{item.mainLabel}}</span>
+        <p class="label" ><el-tag class="tag" type='info' round size="small" v-for="item2 in item.label" :key="item2">{{item2}}</el-tag></p>
       </div>
       <h3 class="title">{{item.title}}</h3>
+      <p class="digest">{{item.digest}}</p>
+    <div class="but">
+      <el-tooltip
+      :auto-close='1000'
+        class="box-item"
+        effect="light "
+        content="收藏"
+        :offset='5'
+        :hide-after='0'
+        :enterable='false'
+        placement="top"
+      >
+      <span class="iconbox" @click="collection(item,index)"  :class="{isActive:item.isCollection}"><span class="iconspan" :class="{activeaa:item.isCollection && isonecollection==index }"></span><StarFilled class="icon gicon"/>{{item.collectionCount}}</span>
+      </el-tooltip>
+      <el-tooltip
+        class="box-item"
+        effect="light "
+        content="点赞"
+        :offset='5'
+        :hide-after='0'
+        :enterable='false'
+        placement="top"
+      >
+      <span class="iconbox"  @click="give(item,index)" :class="{isActive:item.isGive}"><span class="iconspan" :class="{activeaa:item.isGive && isoneGive==index  }"></span><CaretTop class="icon gicon"/>{{item.giveCount}}</span>
+      </el-tooltip>
+
+      <el-tooltip
+        class="box-item"
+        :offset='5'
+        effect="light "
+        content="评论"
+        :hide-after='0'
+        :enterable='false'
+        placement="top"
+      >
+      <span ><ChatRound class="icon comment"/>{{item.comentCount}}</span>
+      </el-tooltip>
+
+
     </div>
-    <img :src="item.cover" v-if="item.cover"  class="itemImage">
+    </div>
+    <img :src="item.cover" v-if="item.cover"  class="itemImage" />
   </div>
 </div>
 
 </template>
 
 <script setup lang="ts">
-import {ref,defineProps,defineEmits,withDefaults, Ref} from 'vue';
+import {ref,defineProps,defineEmits,onUpdated, onMounted,nextTick} from 'vue';
 import {getmoments} from '@/store/home/types';
 import {storeToRefs} from 'pinia';
 import {home} from '@/store/home/home';
 import {timePurify} from '@/utils/timePurify';
+import { ElMessage } from 'element-plus'
+import {moment} from '@/store/moment/moment';
+import { useRouter } from 'vue-router';
 // 1.点击推荐跟最新导航栏切换排序
 //推荐跟最新导航栏的决定样式变量
 const isActive=ref<string>('推荐')
@@ -35,15 +78,131 @@ const isActive=ref<string>('推荐')
     isActive.value='最新'
   }
 
-//获取动态数据
+//2.获取动态数据
 const homeStore=home()
 const {momentsInfo}=storeToRefs(homeStore)
-console.log(momentsInfo.value);
+//3.点赞，收藏的变色逻辑
+const isGive=ref<boolean>(false)
+const isCollect=ref<boolean>(false)
+const isoneGive=ref<number>(-1)//刷新界面的时候不许动画
+const isonecollection=ref<number>(-1)//刷新界面的时候不许动画
+//请求点赞，取消点赞
+async function give(item:getmoments,index:number){
+  isoneGive.value=index
+  if(!momentsInfo.value[index].isGive){
+    momentsInfo.value[index].isGive=1
+    momentsInfo.value[index].giveCount+=1
+  }
+  else{
+    momentsInfo.value[index].isGive=undefined
+    momentsInfo.value[index].giveCount-=1
+  }
+  await homeStore.startGive(item.id)
+}
+async function collection(item:getmoments,index:number){
+  isonecollection.value=index
+  if(!momentsInfo.value[index].isCollection){
+    momentsInfo.value[index].isCollection=1
+    momentsInfo.value[index].collectionCount+=1
+    ElMessage({
+    message: '收藏成功!',
+    type: 'success',
+  })
+  }
+  else{
+    momentsInfo.value[index].isCollection=undefined
+    momentsInfo.value[index].collectionCount-=1
+    ElMessage({
+    message: '取消收藏!',
+    type: 'info',
+  })
+  }
+  await homeStore.startCollection(item.id)
+}
+// 4.跳转到文章详情表
+const momentStore=moment()
 
-
+const router=useRouter()
+async function goMoment(momentId,index){
+  const res=await momentStore.getMomentDetail(momentId)
+  router.push({path:`/free/moment/${momentId}`})
+}
 </script>
 
 <style scoped lang="less">
+@activeColor:#007fff;
+.icon{
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  position: relative;
+}
+.iconbox{
+  position: relative;
+  .iconspan{
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: @activeColor;
+  position: absolute;
+  left: 10px;
+  transform: translate(-50%);
+}
+.activeaa{
+  animation: activeRound 0.3s;
+}
+}
+
+@keyframes activeRound{
+  93%{
+    box-shadow: 0 20px 0px,
+  0px -20px 0,
+  15px -15px 0,
+  20px 0px 0,
+  -20px 0px 0,
+  -15px 15px 0,
+  -15px -15px 0,
+  15px 15px 0
+  ;
+  }
+  100%{
+    box-shadow: 0 0px 0,
+  0px 0px 0,
+  0px 0px 0,
+  0px 0px 0,
+  0px 0px 0,
+  0px 0px 0,
+  0px 0px 0,
+  0px 0px 0
+  ;
+  }
+}
+.comment{
+  width: 16px;
+  height: 16px;
+}
+  .but{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 15px;
+    padding-left: 10px;
+    color: #858b90;
+    font-size: 14px;
+    span{
+      margin-right: 30px;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      &:hover .gicon{
+        box-shadow: 0px 2px 0px;
+      }
+    }
+    .isActive{
+      color: @activeColor;
+    }
+  }
   .navItem{
       color: #71777c;
       border-radius: 10px;
@@ -71,12 +230,28 @@ console.log(momentsInfo.value);
   display: flex;
   flex-direction: column;
 }
+.digest{
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  padding-right: 20px;
+  font-size: 14px;
+  color: #858b90;
+
+}
 .item{
   border-bottom: 1px solid rgb(233, 233, 233);
   height: 170px;
   padding: 10px 15px;
   display: flex;
+  position: relative;
   justify-content:space-between;
+  cursor: pointer;
+  &:hover{
+    background-color: #fbfbfb;
+  }
 }
 .moment-header{
  text-align: start;
@@ -110,8 +285,16 @@ console.log(momentsInfo.value);
   }
 }
 .title{
+  max-width: 550px;
   text-align: start;
   margin: 0;
+  white-space:nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 10px;
+  &:hover{
+    text-decoration:underline;
+  }
 }
 .content{
   height: 100%;
@@ -119,7 +302,7 @@ console.log(momentsInfo.value);
 .itemImage{
   width: 200px;
   height: 133px;
-
   transform:translateY(35px);
+  margin-right: 20px;
 }
 </style>
