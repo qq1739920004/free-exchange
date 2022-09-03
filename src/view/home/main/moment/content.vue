@@ -111,7 +111,11 @@ async function collection(e){
 <style scoped lang='less'>
 @import '~@/assets/css/prism.css';
 @activeColor:#007fff;
-
+.content-box{
+  ::v-deep img{
+    max-width:100%;
+  }
+}
 #top-container {
   border-bottom: 1px solid #e8e8e8;
   padding-left: 30px;

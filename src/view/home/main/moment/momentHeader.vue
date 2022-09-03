@@ -34,6 +34,10 @@ const props=defineProps(['momentDetail'])
 
 <style scoped lang='less'>
 @huix:#aeb3bd;
+.authorName{
+  font-size: 22px;
+  font-family: 'yy';
+  }
 .moment-header{
   background-color: #ffffff;
   padding: 10px 30px;
@@ -64,10 +68,7 @@ const props=defineProps(['momentDetail'])
     height: 60px;
     border-radius: 50%;
   }
-  .authorName{
-  font-size: 22px;
-  font-family: 'yy';
-  }
+
   span{
     margin-right: 20px;
   }
