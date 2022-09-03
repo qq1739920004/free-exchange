@@ -122,7 +122,7 @@ function titleChange(this:any){
 }
 
 #editor-toolbar {
-  width: 1200px;
+  width: 1000px;
   background-color: #fcfcfc;
   margin: 0 auto;
 }
@@ -135,7 +135,7 @@ function titleChange(this:any){
   bottom: unset;
 }
 #editor-container {
-  width: 70%;
+  width: 1000px;
   margin: 30px auto 150px auto;
   background-color: #fff;
   padding: 20px 50px 50px 50px;

@@ -22,7 +22,7 @@
         :enterable='false'
         placement="top"
       >
-      <span class="iconbox" @click="collection(item,index)"  :class="{isActive:item.isCollection}"><span class="iconspan" :class="{activeaa:item.isCollection && isonecollection==index }"></span><StarFilled class="icon gicon"/>{{item.collectionCount}}</span>
+      <span class="iconbox" @click="collection(item,index,$event)"  :class="{isActive:item.isCollection}"><span class="iconspan" :class="{activeaa:item.isCollection && isonecollection==index }"></span><StarFilled class="icon gicon"/>{{item.collectionCount}}</span>
       </el-tooltip>
       <el-tooltip
         class="box-item"
@@ -33,7 +33,7 @@
         :enterable='false'
         placement="top"
       >
-      <span class="iconbox"  @click="give(item,index)" :class="{isActive:item.isGive}"><span class="iconspan" :class="{activeaa:item.isGive && isoneGive==index  }"></span><CaretTop class="icon gicon"/>{{item.giveCount}}</span>
+      <span class="iconbox"  @click="give(item,index,$event)" :class="{isActive:item.isGive}"><span class="iconspan" :class="{activeaa:item.isGive && isoneGive==index  }"></span><CaretTop class="icon gicon"/>{{item.giveCount}}</span>
       </el-tooltip>
 
       <el-tooltip
@@ -66,6 +66,8 @@ import {timePurify} from '@/utils/timePurify';
 import { ElMessage } from 'element-plus'
 import {moment} from '@/store/moment/moment';
 import { useRouter } from 'vue-router';
+import {userRights} from '@/utils/islogin';
+
 // 1.点击推荐跟最新导航栏切换排序
 //推荐跟最新导航栏的决定样式变量
 const isActive=ref<string>('推荐')
@@ -87,7 +89,13 @@ const isCollect=ref<boolean>(false)
 const isoneGive=ref<number>(-1)//刷新界面的时候不许动画
 const isonecollection=ref<number>(-1)//刷新界面的时候不许动画
 //请求点赞，取消点赞
-async function give(item:getmoments,index:number){
+async function give(item:getmoments,index:number,e){
+  e.stopPropagation();
+
+  if(!userRights()) {
+    ElMessage.error('请先登录再进行此操作')
+    return
+  }
   isoneGive.value=index
   if(!momentsInfo.value[index].isGive){
     momentsInfo.value[index].isGive=1
@@ -99,14 +107,20 @@ async function give(item:getmoments,index:number){
   }
   await homeStore.startGive(item.id)
 }
-async function collection(item:getmoments,index:number){
+async function collection(item:getmoments,index:number,e){
+  e.stopPropagation();
+
+  if(!userRights()) {
+    ElMessage.error('请先登录再进行此操作')
+    return
+  }
   isonecollection.value=index
   if(!momentsInfo.value[index].isCollection){
     momentsInfo.value[index].isCollection=1
     momentsInfo.value[index].collectionCount+=1
     ElMessage({
     message: '收藏成功!',
-    type: 'success',
+    type: 'error',
   })
   }
   else{
@@ -125,7 +139,11 @@ const momentStore=moment()
 const router=useRouter()
 async function goMoment(momentId,index){
   const res=await momentStore.getMomentDetail(momentId)
-  router.push({path:`/free/moment/${momentId}`})
+  let routeUrl = router.resolve({
+          path:`/free/moment/${momentId}`,
+          query:{order:index}
+     });
+     window.open(routeUrl.href, '_blank');
 }
 </script>
 
@@ -140,7 +158,6 @@ async function goMoment(momentId,index){
 .iconbox{
   position: relative;
   .iconspan{
-  content: '';
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -301,7 +318,7 @@ async function goMoment(momentId,index){
 }
 .itemImage{
   width: 200px;
-  height: 133px;
+  height: 126px;
   transform:translateY(35px);
   margin-right: 20px;
 }

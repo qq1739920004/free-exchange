@@ -15,7 +15,6 @@ export function timePurify(time:string){
   const hour=nowTime.diff(timeValue,'hour')
   const minute=nowTime.diff(timeValue,'minute')
   const second=nowTime.diff(timeValue,'second')
-
   if(year!==0){
     return `${year}年前`
   }

@@ -34,11 +34,22 @@ class homeService{
     })
   }
   //点赞动态
-  startGive(momentId:number|string){
-    return krlrequest.request({
-      url:homePath.startGive+momentId,
-      method:'post',
-    })
+  startGive(momentId:number|string,commentId?:number | undefined){
+    if(commentId){
+      return krlrequest.request({
+        url:homePath.startGive+momentId,
+        method:'post',
+        data:{
+          "commantId":commentId
+        }
+      })
+    }else{
+      return krlrequest.request({
+        url:homePath.startGive+momentId,
+        method:'post',
+      })
+    }
+
   }
   //收藏动态
   startCollection(momentId:number|string){

@@ -19,9 +19,6 @@ const router=useRouter()
 lcreate()
 async function lcreate() {
   const res=await loginStore.isLogin()
-  if(!res){
-    router.push('/login')
-  }
 }
 </script>
 

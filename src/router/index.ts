@@ -14,7 +14,7 @@ const routes:RouteRecordRaw[]=[
     children:[
       {path:'',component:()=>import('@/view/home/main/content/content.vue')},
       {path:'create',component:()=>import('@/view/home/main/createMoment/create.vue')},
-      {path:'moment/:momentId',component:()=>import('@/view/home/main/moment/moment.vue')}
+      {path:'moment/:momentId',name:'moment',component:()=>import('@/view/home/main/moment/moment.vue')}
 
     ]
   },
@@ -30,8 +30,8 @@ const router=createRouter({
   history:createWebHashHistory()
 })
 router.beforeEach((to)=>{
-  if(to.name!='login' && to.path!='/free'){
-    if (!localStorage.getItem('token')) {
+  if(to.name!='login' && to.path!='/free' && to.name!='moment'){
+    if (!localStorage.getItem('token') || !localStorage.getItem('user')) {
       return { name: 'login' }
     }
   }

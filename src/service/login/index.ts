@@ -17,9 +17,9 @@ class loginService{
      interceptor:{
         responseInterceptorLaunch:(res:any)=>{
           if(res.token){
-            const {id,name,token}=res
+            const {id,name,token,path}=res
             localStorage.setItem('token',token)
-            localStorage.setItem('user',JSON.stringify({id,name}))
+            localStorage.setItem('user',JSON.stringify({id,name,path}))
           }
          return res
         }
