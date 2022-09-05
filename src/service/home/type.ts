@@ -8,5 +8,6 @@ export interface pageType{
   end:number,
   category?:string | number,
   method?:string,
-  ranking?:string
+  ranking?:string,
+  search?:string
 }

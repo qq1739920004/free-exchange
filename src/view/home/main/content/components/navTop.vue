@@ -28,6 +28,9 @@ import { storeToRefs } from 'pinia';
   const homeStore=home()
   const { pageInfo }=storeToRefs(homeStore)
   function getsMoment(category:string | number=0){
+    const method=pageInfo.value.method
+    homeStore.$reset()
+    pageInfo.value.method=method
       pageInfo.value.category=category
       homeStore.getsMoment()
   }
@@ -37,6 +40,9 @@ getsMoment()
 
   //点击主标签
   function labelAcitive(index:number,name:string){
+    const method=pageInfo.value.method
+    homeStore.$reset()
+    pageInfo.value.method=method
     labelIndex.value=index
     if(index){
       getsMoment(name)

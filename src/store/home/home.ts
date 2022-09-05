@@ -16,6 +16,7 @@ export const home = defineStore('home',{
         end:8,
         category:0,
         method:'rand',
+        search:''
       },
       limit:1,
 
@@ -26,19 +27,18 @@ export const home = defineStore('home',{
   actions: {
     //获取多条动态信息
     async getsMoment() {
-      console.log(this.pageInfo);
       if(this.pageInfo.category){
-        const result = await homeService.getsCategoryMoment(this.pageInfo)
+        const result = await homeService.getsCategoryMoment(this.pageInfo,true)
         this.momentsInfo=result
-        for(let i=0;i<this.momentsInfo.length;i++){
+        for(let i=0;i<this.momentsInfo?.length;i++){
           this.arrid.add(this.momentsInfo[i].id)
         }
         return result
       }
       else{
-        const result = await homeService.getsMoment(this.pageInfo)
+        const result = await homeService.getsMoment(this.pageInfo,true)
         this.momentsInfo=result
-        for(let i=0;i<this.momentsInfo.length;i++){
+        for(let i=0;i<this.momentsInfo?.length;i++){
           this.arrid.add(this.momentsInfo[i].id)
         }
         return result
@@ -47,12 +47,9 @@ export const home = defineStore('home',{
     },
     //下拉加载更多动态
     async addgetsMoment():Promise<getmoments[]>{
+      console.log(2222222);
       if(this.pageInfo.category){
         const result = await homeService.getsCategoryMoment(this.pageInfo)
-        if(!result.length || result.length<5){
-          this.limit=0
-        }
-
         for(let i=0;i<result.length;i++){
           if(!this.arrid.has(result[i].id))
           {
@@ -63,14 +60,16 @@ export const home = defineStore('home',{
             return result
           }
         }
-        return result
+        if(this.momentsInfo?.length===this.pageInfo.end || (result.length<5) || this.pageInfo.end-this.momentsInfo?.length>=5){
+          console.log(1111111);
+          this.limit=0
+          return result
+        }else{
+            return await this.addgetsMoment()
+        }
       }
       else{
         const result = await homeService.getsMoment(this.pageInfo)
-
-        if(!result.length || result.length<5){
-          this.limit=0
-        }
         for(let i=0;i<result.length;i++){
           if(!this.arrid.has(result[i].id))
           {
@@ -82,7 +81,8 @@ export const home = defineStore('home',{
           }
         }
 
-        if(this.momentsInfo?.length===this.pageInfo.end || (result.length<5)){
+        if(this.momentsInfo?.length===this.pageInfo.end || (result.length<5) || this.pageInfo.end-this.momentsInfo?.length>=5){
+          this.limit=0
           return result
         }else{
             return await this.addgetsMoment()
@@ -113,7 +113,8 @@ export const home = defineStore('home',{
       this.rankingCollection=result
     }
     return result
-  }
+  },
+
     }
 }
 )

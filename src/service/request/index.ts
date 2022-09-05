@@ -37,7 +37,7 @@ class KRLrequest{
        //加载的组件
        let Loading: any
        //查看是否显示加载图标
-      if (config.isLoding === true) {
+      if (config.isLoding) {
         this.isLoding = config.isLoding
       }
       if (this.isLoding) {
@@ -56,8 +56,9 @@ class KRLrequest{
       if(config.interceptor?.responseInterceptorLaunch){
         res=config.interceptor.responseInterceptorLaunch(res)
       }
-      if (config.isLoding === true) {
+      if (config.isLoding !== undefined && this.isLoding!==false) {
           Loading.close()
+          this.isLoding=false
       }
         resolve(res)
 

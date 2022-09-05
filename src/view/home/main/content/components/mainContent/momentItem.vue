@@ -1,6 +1,6 @@
 <template>
 <div class="moment"  v-infinite-scroll="load"  :infinite-scroll-disabled="disabled">
-  <nav class="header"><span :class="['navItem',isActive==='推荐'?'itemActive':'']"  @click="recommend">推荐</span><span :class="['navItem',isActive==='最新'?'itemActive':'']" @click="newest">最新</span></nav>
+  <moments-nav></moments-nav>
   <div @click="goMoment(item.id,index)"  v-for="(item,index) in momentsInfo" :key="item.id" class="item" >
     <div class="content">
       <div class="moment-header">
@@ -68,29 +68,13 @@ import {moment} from '@/store/moment/moment';
 import { useRouter } from 'vue-router';
 import {userRights} from '@/utils/islogin';
 import {pageType} from '@/service/home/type';
-
+import momentsNav from './momentsNav.vue';
 // 1.点击推荐跟最新导航栏切换排序
 //推荐跟最新导航栏的决定样式变量
 //2.请求动态的代码
   const homeStore=home()
 const {pageInfo,limit}=storeToRefs(homeStore)
-const isActive=ref<string>('推荐')
-  //推荐
-  function recommend(){
-      isActive.value='推荐'
-      homeStore.$reset()
-      pageInfo.value.method='rand'
-      homeStore.getsMoment()
 
-  }
-  //最新
-  function newest(){
-      isActive.value='最新'
-      homeStore.$reset()
-      pageInfo.value.method='newest'
-      homeStore.getsMoment()
-
-  }
 
 //获取动态数据
 const {momentsInfo}=storeToRefs(homeStore)
@@ -161,9 +145,10 @@ const disabled=ref(true)
 
 const load = () => {
   if(limit.value){
-    pageInfo.value.start=pageInfo.value.end
+    if(pageInfo.value.method!=='rand'){
+      pageInfo.value.start=pageInfo.value.end
+    }
     pageInfo.value.end+=5
-    console.log(limit.value);
     homeStore.addgetsMoment()
   }
 }
@@ -247,29 +232,9 @@ onMounted(() => {
       color: @activeColor;
     }
   }
-  .navItem{
-      color: #71777c;
-      border-radius: 10px;
-      font-size: 14px;
-      cursor: pointer;
-      &:hover{
-        color: #007fff;
-      }
-  }
-  .itemActive{
-    color: #007fff;
-  }
-  .header{
-    height: 40px;
-    display: flex;
-    align-items:center;
-    border-bottom: 1px solid rgb(233, 233, 233);
-    justify-content:start;
-    font-size: 15px;
-    span{
-      margin: 18px;
-    }
-  }
+
+
+
 .moment{
   display: flex;
   flex-direction: column;
