@@ -70,6 +70,7 @@ function goCreate() {
 <style scoped lang="less">
 .name {
   vertical-align: 2px;
+  font-family: '黑体';
 }
 .avatar {
   width: 40px;

@@ -208,7 +208,6 @@ async function commitFrom(){
 .header {
   display: flex;
   align-items: center;
-  font-family: 'yy';
   height: 80px;
   position: relative;
   border-bottom: 1px solid rgb(241, 241, 241);
@@ -254,5 +253,12 @@ async function commitFrom(){
   100% {
     transform: rotate(360deg);
   }
+}
+.title{
+  font-family: 'yy';
+}
+ @font-face {
+  font-family: 'yy';
+  src: url('~@/assets/圆体.ttf');
 }
 </style>

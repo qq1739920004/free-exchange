@@ -14,7 +14,6 @@ class homeService{
       url:homePath.createdMoment,
       method:'post',
       data:createInfo,
-      // isLoding:true,
     })
   }
   //请求动态
@@ -22,7 +21,9 @@ class homeService{
     return krlrequest.request<getmoments[]>({
       url:homePath.getsMoment,
       method:'get',
-      params:page
+      params:page,
+      isLoding:true
+
     })
   }
   //请求某一分类的动态

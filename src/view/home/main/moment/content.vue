@@ -30,12 +30,13 @@
         class="box-item"
         :offset='5'
         effect="light "
-        content="评论"
+        content="跳转到评论区"
         :hide-after='0'
         :enterable='false'
-        placement="left"
+        placement="right"
       >
-      <span ><ChatRound class="icon comment"/></span>
+
+      <span @click="toComment"><ChatRound class="icon comment"/></span>
       </el-tooltip>
 
 
@@ -47,7 +48,7 @@
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
 import {moment} from '@/store/moment/moment';
-import {defineProps,ref} from 'vue';
+import {defineProps,ref,defineEmits} from 'vue';
 import {getmoments} from '@/store/home/types';
 import {pris} from './prism.js';
 import { ElMessage } from 'element-plus'
@@ -55,6 +56,8 @@ import {storeToRefs} from 'pinia';
 import {timePurify} from '@/utils/timePurify';
 import { useRouter,useRoute } from 'vue-router';
 import {home} from '@/store/home/home';
+
+const emit=defineEmits(['toComment'])
 const userInfo=ref()
 if(localStorage.getItem('user')){
   userInfo.value=JSON.parse(localStorage.getItem('user'))
@@ -105,6 +108,11 @@ async function collection(e){
   })
   }
   await homeStore.startCollection(momentInfo.value.id)
+}
+//点击跳转到评论区
+function toComment(){
+  console.log(2222222);
+  emit('toComment');
 }
 </script>
 

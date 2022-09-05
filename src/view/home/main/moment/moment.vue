@@ -1,14 +1,15 @@
 <template>
   <div class="moment" v-if="momentDetail.user">
     <moment-header :momentDetail=momentDetail></moment-header>
-    <contentl class="contentl"></contentl>
-    <comment :momentId='momentId'></comment>
+    <contentl class="contentl" @toComment='toComment'></contentl>
+    <comment :momentId='momentId' ref="commentR"></comment>
+    <div class="goTop" @click="goTop"><el-icon><Top /></el-icon></div>
   </div>
 
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref,getCurrentInstance  } from 'vue';
 import {storeToRefs} from 'pinia';
 import {moment} from '@/store/moment/moment';
 import {getmoments} from '@/store/home/types';
@@ -29,10 +30,43 @@ async function service() {
   momentDetail.value=res
 }
 service()
+// 2.跳转到评论的dom元素位置
+const commentR=ref(null)
+const { proxy } = getCurrentInstance();
+function toComment(){
+  proxy.$refs['commentR'].commentTarget.scrollIntoView();
+
+}
+
+//3.回到顶部的逻辑
+function goTop(){
+  console.log(222222);
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  })
+}
 
 </script>
 
 <style scoped lang='less'>
+  .goTop{
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    cursor: pointer;
+    &:hover{
+      background-color: rgb(197, 196, 196);
+    }
+  }
   .moment{
   position: relative;
   max-width:1000px;
@@ -41,3 +75,4 @@ service()
 }
 
 </style>
+

@@ -14,6 +14,7 @@ import {home} from '@/store/home/home';
 import {pageType} from '@/service/home/type';
 import 'animate.css'
 import {getmoments} from '@/store/home/types';
+import { storeToRefs } from 'pinia';
 //1.请求标签
  const labelStore=label()
   const labels=ref<mainLabelType[]>()
@@ -25,18 +26,10 @@ import {getmoments} from '@/store/home/types';
 
 //2.请求动态的代码
   const homeStore=home()
-  const pageInfo=ref<pageType>({
-    start:0,
-    end:10,
-    category:0
-  })
-  const result=ref<getmoments[]>()
+  const { pageInfo }=storeToRefs(homeStore)
   function getsMoment(category:string | number=0){
       pageInfo.value.category=category
-      homeStore.getsMoment(pageInfo.value).then(res=>{
-      result.value=res
-      console.log(result.value);
-      })
+      homeStore.getsMoment()
   }
   //第一次调用请求推荐的动态
 getsMoment()
@@ -57,7 +50,7 @@ getsMoment()
 <style scoped lang="less">
 .nav{
   border-top: 1px solid #f5f5f5;
-  border-bottom: 5px solid #f5f5f5;
+  border-bottom: 12px solid #f5f5f5;
     height: 40px;
     width: 100%;
     background-color: white;

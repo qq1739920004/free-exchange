@@ -57,9 +57,7 @@ class KRLrequest{
         res=config.interceptor.responseInterceptorLaunch(res)
       }
       if (config.isLoding === true) {
-        setTimeout(() => {
           Loading.close()
-        }, 3000)
       }
         resolve(res)
 

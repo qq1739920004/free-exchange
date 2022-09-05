@@ -36,7 +36,7 @@ const props=defineProps(['momentDetail'])
 @huix:#aeb3bd;
 .authorName{
   font-size: 22px;
-  font-family: 'yy';
+  font-family: '黑体';
   }
 .moment-header{
   background-color: #ffffff;
@@ -93,10 +93,7 @@ const props=defineProps(['momentDetail'])
 .cover{
   width: 900px;
 }
-@font-face {
-  font-family: 'yy';
-  src: url('~@/assets/圆体.ttf');
-}
+
 .util-title{
   text-align: start;
   padding: 10px 0 20px;

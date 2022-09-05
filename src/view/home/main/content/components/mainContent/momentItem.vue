@@ -1,7 +1,7 @@
 <template>
-<div class="moment">
+<div class="moment"  v-infinite-scroll="load"  :infinite-scroll-disabled="disabled">
   <nav class="header"><span :class="['navItem',isActive==='推荐'?'itemActive':'']"  @click="recommend">推荐</span><span :class="['navItem',isActive==='最新'?'itemActive':'']" @click="newest">最新</span></nav>
-  <div @click="goMoment(item.id,index)" v-for="(item,index) in momentsInfo" :key="item.id" class="item" >
+  <div @click="goMoment(item.id,index)"  v-for="(item,index) in momentsInfo" :key="item.id" class="item" >
     <div class="content">
       <div class="moment-header">
         <span class="name" v-if="item.user.name">{{item.user.name}}</span>
@@ -67,21 +67,32 @@ import { ElMessage } from 'element-plus'
 import {moment} from '@/store/moment/moment';
 import { useRouter } from 'vue-router';
 import {userRights} from '@/utils/islogin';
+import {pageType} from '@/service/home/type';
 
 // 1.点击推荐跟最新导航栏切换排序
 //推荐跟最新导航栏的决定样式变量
+//2.请求动态的代码
+  const homeStore=home()
+const {pageInfo,limit}=storeToRefs(homeStore)
 const isActive=ref<string>('推荐')
   //推荐
   function recommend(){
-    isActive.value='推荐'
+      isActive.value='推荐'
+      homeStore.$reset()
+      pageInfo.value.method='rand'
+      homeStore.getsMoment()
+
   }
   //最新
   function newest(){
-    isActive.value='最新'
+      isActive.value='最新'
+      homeStore.$reset()
+      pageInfo.value.method='newest'
+      homeStore.getsMoment()
+
   }
 
-//2.获取动态数据
-const homeStore=home()
+//获取动态数据
 const {momentsInfo}=storeToRefs(homeStore)
 //3.点赞，收藏的变色逻辑
 const isGive=ref<boolean>(false)
@@ -145,6 +156,22 @@ async function goMoment(momentId,index){
      });
      window.open(routeUrl.href, '_blank');
 }
+// 5.下拉刷新
+const disabled=ref(true)
+
+const load = () => {
+  if(limit.value){
+    pageInfo.value.start=pageInfo.value.end
+    pageInfo.value.end+=5
+    console.log(limit.value);
+    homeStore.addgetsMoment()
+  }
+}
+onMounted(() => {
+  setTimeout(()=>{
+   disabled.value=false
+  },2000)
+})
 </script>
 
 <style scoped lang="less">
@@ -248,6 +275,8 @@ async function goMoment(momentId,index){
   flex-direction: column;
 }
 .digest{
+  word-break: break-word;
+  max-width: 550px;
   -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -263,6 +292,7 @@ async function goMoment(momentId,index){
   height: 170px;
   padding: 10px 15px;
   display: flex;
+  text-align: start;
   position: relative;
   justify-content:space-between;
   cursor: pointer;

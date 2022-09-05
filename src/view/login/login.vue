@@ -43,10 +43,7 @@ function loginChange() {
 </script>
 
 <style scoped lang="less">
-@font-face {
-  font-family: 'yy';
-  src: url('~@/assets/圆体.ttf');
-}
+
 ::v-deep .el-tabs__item {
   font-size: 15px;
 }
@@ -70,12 +67,8 @@ function loginChange() {
   .demo-tabs {
     box-sizing: border-box;
   }
-  .title {
-    font-family: 'yy';
-    margin: 25px 0;
-    font-size: 30px;
-    display: inline-block;
-  }
+
+
   .logo {
     position: absolute;
     left: -24px;
@@ -94,4 +87,14 @@ function loginChange() {
     }
   }
 }
+ @font-face {
+  font-family: 'yy';
+  src: url('~@/assets/圆体.ttf');
+}
+.title {
+    font-family: 'yy';
+    margin: 25px 0;
+    font-size: 30px;
+    display: inline-block;
+  }
 </style>

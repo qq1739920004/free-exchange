@@ -6,5 +6,7 @@ export interface createType{
 export interface pageType{
   start:number,
   end:number,
-  category?:string | number
+  category?:string | number,
+  method?:string,
+  ranking?:string
 }
