@@ -2,9 +2,9 @@
   <div class="hleft">
     <el-dropdown>
       <span class="el-dropdown-link">
-        <span class="name" v-if="props.userInfo">{{
-          props.userInfo.name
-        }}</span>
+        <b class="name" v-if="props.userInfo">{{
+          props.userInfo.nameTure
+        }}</b>
         <el-icon class="el-icon--right">
           <arrow-down />
         </el-icon>
@@ -12,7 +12,7 @@
       <template #dropdown>
         <el-dropdown-menu>
           <el-dropdown-item
-            ><span class="userInfo">个人中心</span></el-dropdown-item
+            ><span class="userInfo" @click="goSpace">个人中心</span></el-dropdown-item
           >
           <el-dropdown-item
             ><span class="outLogin" @click="outLogin"
@@ -23,6 +23,7 @@
       </template>
     </el-dropdown>
     <img
+      @click="goSpace"
       class="avatar"
       v-if="props.userInfo"
       :src="props.userInfo.path"
@@ -50,11 +51,15 @@ const props = defineProps<{
   userInfo: userInfoType
 }>()
 const router = useRouter()
-
+//退出登录
 function outLogin() {
   localStorage.removeItem('token')
   localStorage.removeItem('user')
   router.push('/login')
+}
+//跳转到用户中心
+function goSpace(){
+  router.push('/free/space')
 }
 const createMStore=createM()
 const {createMInfo}=storeToRefs(createMStore)
@@ -71,8 +76,10 @@ function goCreate() {
 .name {
   vertical-align: 2px;
   font-family: '黑体';
+  font-weight: 500;
 }
 .avatar {
+  cursor: pointer;
   width: 40px;
   height: 40px;
   border-radius: 50%;

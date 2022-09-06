@@ -27,7 +27,7 @@
         </el-select>
     </template >
     <template v-if="item.type=='textarea'">
-      <el-input  :placeholder="item.placeholder" minlength="30" maxlength="200" :autosize="{ minRows: 5}" show-word-limit type="textarea" v-model="formData[`${item.field}`]" />
+      <el-input  :placeholder="item.placeholder" minlength="30" :maxlength="item.otherOptions?.maxleng || 200" :autosize="{ minRows: 5}" show-word-limit type="textarea" v-model="formData[`${item.field}`]" />
     </template>
     <template v-if="item.type=='upload'">
       <upload-picture url="http://43.138.182.103:8888/upload/temp/picture/cover"></upload-picture>
@@ -45,6 +45,8 @@
 import {defineProps,withDefaults,ref,defineEmits,watchEffect,watch} from 'vue';
 import {LFromItem} from './types';
 import uploadPicture from '@/components/uploadPicture/uploadPicture.vue'
+console.log('object');
+
 interface Props{
   formLabelAlign:LFromItem[]
   formData:any

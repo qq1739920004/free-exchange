@@ -17,6 +17,7 @@ import { Search } from '@element-plus/icons-vue'
 import {ref} from 'vue';
 import {home} from '@/store/home/home';
 import {storeToRefs} from 'pinia';
+import {useRouter,useRoute} from 'vue-router';
 
 // 1.输入框配置
 let value=ref<string>('')
@@ -35,13 +36,16 @@ function blurF(){
   placeholder.value='搜你所想吧~'
 }
 //2.点击搜索
+const route=useRoute()
+value.value=route.query.searchValue ?? ''
 const homeStore=home()
+const router=useRouter()
 const {pageInfo,momentsInfo}=storeToRefs(homeStore)
 async function searchStart(){
   homeStore.$reset()
   pageInfo.value.search=value.value
   await homeStore.getsMoment()
-  console.log(momentsInfo.value);
+  router.push({path:'/free/moment/search',query:{searchValue:value.value}})
 }
 </script>
 

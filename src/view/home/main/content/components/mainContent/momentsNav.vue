@@ -8,27 +8,63 @@
 import {home} from '@/store/home/home';
 import {ref} from 'vue';
 import {storeToRefs} from 'pinia';
+import {defineProps} from 'vue';
+import {useRoute} from 'vue-router';
  const homeStore=home()
 const {pageInfo,limit}=storeToRefs(homeStore)
 const isActive=ref<string>('推荐')
 
+//判断是搜索框的请求还是首页的请求
+const props=defineProps({
+  isSearch:{
+    default:false
+  }
+})
+  const route=useRoute()
  //推荐
   function recommend(){
+    //判断是搜索框的请求还是首页的请求
+    if(props.isSearch){
+      const searchValue=pageInfo.value.search || route.query.searchValue
+      isActive.value='推荐'
+      const category=pageInfo.value.category
+      homeStore.$reset()
+      pageInfo.value.method='rand'
+      pageInfo.value.search=searchValue
+      pageInfo.value.category=category
+      homeStore.getsMoment()
+    }else
+    {
       isActive.value='推荐'
       const category=pageInfo.value.category
       homeStore.$reset()
       pageInfo.value.method='rand'
       pageInfo.value.category=category
       homeStore.getsMoment()
+    }
+
   }
   //最新
   function newest(){
+    //判断是搜索框的请求还是首页的请求
+    if(props.isSearch){
+      isActive.value='最新'
+      const searchValue=pageInfo.value.search || route.query.searchValue
+      const category=pageInfo.value.category
+      homeStore.$reset()
+      pageInfo.value.method='newest'
+      pageInfo.value.category=category
+      pageInfo.value.search=searchValue
+      homeStore.getsMoment()
+    }else{
       isActive.value='最新'
       const category=pageInfo.value.category
       homeStore.$reset()
       pageInfo.value.method='newest'
       pageInfo.value.category=category
       homeStore.getsMoment()
+    }
+
   }
 </script>
 

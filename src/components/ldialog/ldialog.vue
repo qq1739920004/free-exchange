@@ -5,10 +5,11 @@
     width="30%"
   >
   <div class="forml">
-    <forml :formLabelAlign="props.formLabelAlign" lwidth="180px" v-model:dynamic-tags="dynamicTags"   v-model:form-data="formData"></forml>
+    <forml v-if="props.dynamicTags?.length" :formLabelAlign="props.formLabelAlign" lwidth="180px" v-model:dynamic-tags="dynamicTags"   v-model:form-data="formData"></forml>
+    <forml v-else :formLabelAlign="props.formLabelAlign" lwidth="180px"    v-model:form-data="formData"></forml>
   </div>
      <template v-if="props.isdynamicTags">
-      <tagsl v-model:dynamic-tags="dynamicTags"></tagsl>
+      <tagsl v-if="props.isdynamicTags" v-model:dynamic-tags="dynamicTags"></tagsl>
     </template>
     <template #footer>
       <span class="dialog-footer">
@@ -30,15 +31,14 @@ import {LFromItem} from '../forml/types';
 import tagsl from '@/components/tags/tags.vue';
 import { ElMessage} from 'element-plus'
 
-
 const emit=defineEmits(['update:dialogVisible','update:formData','update:dynamicTags','commitFrom'])
 interface Props{
   h:string,
   dialogVisible:boolean,
   formLabelAlign:LFromItem[],
   formData:any,
-  dynamicTags:string[],
-  isdynamicTags:boolean
+  dynamicTags?:string[],
+  isdynamicTags?:boolean
 }
 const props=withDefaults(defineProps<Props>(),{
   h:'对话框',
@@ -62,7 +62,10 @@ let formData = ref({...props.formData})
         deep: true
       }
     )
-let dynamicTags = ref([ ...props.dynamicTags ])
+
+let dynamicTags = ref([])
+if(props.dynamicTags?.length){
+  dynamicTags.value=[ ...props?.dynamicTags ]
     watch(
       dynamicTags,
       (newValue) => {
@@ -72,19 +75,29 @@ let dynamicTags = ref([ ...props.dynamicTags ])
         deep: true
       }
     )
+}
+
 function commitFrom(){
   console.log(formData.value.digest );
-  if(!formData.value.mainLabel || !formData.value.digest){
-     ElMessage({
-        type: 'error',
-        message: '请填写完信息',
-      })
-  }
-  else if(formData.value.digest.length<30){
-    ElMessage({
-        type: 'error',
-        message: '文章摘要至少要30字',
-      })
+  if(formData.value.mainLabel || formData.value.digest)
+    {
+    if(!formData.value.mainLabel || !formData.value.digest){
+      ElMessage({
+          type: 'error',
+          message: '请填写完信息',
+        })
+    }
+    else if(formData.value.digest.length<30){
+      ElMessage({
+          type: 'error',
+          message: '文章摘要至少要30字',
+        })
+    }
+
+    else{
+      dialogChange.value = false
+      emit('commitFrom',formData.value)
+    }
   }
   else{
     dialogChange.value = false

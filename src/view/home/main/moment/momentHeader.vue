@@ -6,7 +6,7 @@
       <div class="authorInfo" >
         <img v-if="momentDetail.user?.avatarUrl" :src="momentDetail.user.avatarUrl" class="authorAvatar" >
         <div class="momentInfo">
-          <span class="authorName"  v-if="momentDetail.user?.name">{{momentDetail.user.name}}</span>
+          <span class="authorName"  v-if="momentDetail.user?.name">{{momentDetail.user.nameTure}}</span>
           <div class="textInfo">
             <span >发布于: {{timePurify2(momentDetail.createTime,'YYYY年MM月DD日 HH:mm分 ')}} <span class="dian">·</span></span>
             <span>点赞数量: {{momentDetail.giveCount}}</span>

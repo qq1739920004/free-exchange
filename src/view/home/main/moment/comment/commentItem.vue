@@ -7,7 +7,7 @@
           <span class="delete-item" v-if="userInfo.id===item.user.id" @click="deleteComment(item.id)">删除</span>
           <img class="user-path" :src="item.user.avatarUrl" alt="">
           <div class="content">
-            <span class="name">{{item.user.name}}</span>
+            <span class="name">{{item.user.nameTure}}</span>
             <p class="content-value">{{item.content}}</p>
             <div class="give-box botmargin">
               <span class="iconbox"  @click="give(item.id,index)" :class="{isActive:item.isGive}"><span class="iconspan" :class="{activeaa:item.isGive && isoneGive==index  }"></span><CaretTop class="icon gicon"/>{{item.giveCount}}</span>
@@ -21,7 +21,7 @@
                 <div class="childrenInf-box">
                   <img class="user-path"  :src="item2.user.avatarUrl" alt="">
                   <div class="content">
-                    <span class="name">{{item2.user.name}} <span v-if="item2.toUser" ><span class="platext"> 回复: </span> {{item2.toUser}}</span></span>
+                    <span class="name">{{item2.user.nameTure}} <span v-if="item2.toUser" ><span class="platext"> 回复: </span> {{item2.toUser}}</span></span>
                     <p class="content-value">{{item2.content}}</p>
                     <span class=""><span class="reply"  @click="showBox(index2+'q')">回复 </span><span class="delete-item2" v-if="userInfo.id===item2.user.id" @click="deleteComment(item2.id)">删除</span></span>
                     <reply-box :belong=item.id :toCommentId=item2.id v-show="showSomeBox===index2+'q'" @lfocue="isfocue" :isshow="showSomeBox===index2+'q'" :momentId=props.momentId></reply-box>

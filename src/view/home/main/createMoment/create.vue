@@ -94,7 +94,7 @@ onBeforeUnmount(() => {
 let html2:string
 function handleChange(this:any,editor:any){
       const html:string = editor.getHtml()
-       if(html2!==html && createMInfo.value?.id && html2 && html2!=='<p><br></p>'){
+       if(html2!==html && createMInfo.value?.id && html!=='<p>点击全屏创作会体验更好哦</p>'){
         console.log(html2);
         debounce(createMStore.setTempContent,2000,[id,html])
       }

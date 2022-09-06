@@ -30,6 +30,7 @@ export const login = defineStore('login',{
           return false
         }
         this.userInfo={...result,token}
+        localStorage.setItem('user',JSON.stringify({...result}))
       }
       return result
     }

@@ -4,7 +4,7 @@
       <header-left v-if="!!token"   :userInfo="userInfo"></header-left>
       <el-button type="primary" v-else @click="goLogin" class="loginbut">登录</el-button>
     </div>
-    <div :class="['logo-box',isHome?'':'logo-box2']">
+    <div @click="goHome" :class="['logo-box',isHome?'':'logo-box2']">
       <img class="logo" src="@/assets/img/logo.svg" alt="" />
       <h2 class="title">free社区</h2>
     </div>
@@ -33,6 +33,7 @@ import {createM} from '@/store/createM/createM';
 import {dialogVisible,formLabelAlign,formData,dynamicTags} from '@/view/home/components/config'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import ldialog from '@/components/ldialog/ldialog.vue';
+
 
 
 const loginStore = login()
@@ -110,6 +111,10 @@ async function commitFrom(){
     isReset.value=false
     formData.value={}
     dynamicTags.value=[]
+}
+//回到首页
+function goHome(){
+  router.push('/free')
 }
 </script>
 
@@ -218,6 +223,7 @@ async function commitFrom(){
   justify-content: center;
   align-items: center;
   flex: 1;
+  cursor: pointer;
 }
 .logo-box2{
   position: relative;

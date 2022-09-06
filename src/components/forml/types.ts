@@ -33,6 +33,8 @@ type LField =
   | 'mainLabel'
   | 'file'
   | 'digest'
+  | 'introduce'
+  | 'nameTrue'
 
   export interface LFromConfig {
     fromItem: LFromItem[]

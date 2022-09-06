@@ -17,21 +17,24 @@ class homeService{
     })
   }
   //请求动态
-  getsMoment(page:pageType,isLoding=false){
+  getsMoment(page:pageType,isLoding=false,isretry=false){
     return krlrequest.request<getmoments[]>({
       url:homePath.getsMoment,
       method:'get',
       params:page,
-      isLoding:isLoding
+      isLoding:isLoding,
+      isretry:isretry
+
     })
   }
   //请求某一分类的动态
-  getsCategoryMoment(page:pageType,isLoding=false){
+  getsCategoryMoment(page:pageType,isLoding=false,isretry=false){
     return krlrequest.request<getmoments[]>({
       url:homePath.getsCategoryMoment,
       method:'get',
       params:page,
-      isLoding:isLoding
+      isLoding:isLoding,
+      isretry:isretry
     })
   }
   //点赞动态
