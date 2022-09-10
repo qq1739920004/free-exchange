@@ -6,12 +6,12 @@
   >
   <div class="forml">
     <forml v-if="props.dynamicTags?.length" :formLabelAlign="props.formLabelAlign" lwidth="180px" v-model:dynamic-tags="dynamicTags"   v-model:form-data="formData"></forml>
-    <forml v-else :formLabelAlign="props.formLabelAlign" lwidth="180px"    v-model:form-data="formData"></forml>
+    <forml  v-else :rules=rules  @successAvatar=commitFrom :formLabelAlign="props.formLabelAlign" lwidth="180px"    v-model:form-data="formData"></forml>
   </div>
      <template v-if="props.isdynamicTags">
       <tagsl v-if="props.isdynamicTags" v-model:dynamic-tags="dynamicTags"></tagsl>
     </template>
-    <template #footer>
+    <template #footer v-if='!isAvartar'>
       <span class="dialog-footer">
         <el-button @click="dialogChange = false">取消</el-button>
         <el-button type="primary" @click="commitFrom"
@@ -38,7 +38,9 @@ interface Props{
   formLabelAlign:LFromItem[],
   formData:any,
   dynamicTags?:string[],
-  isdynamicTags?:boolean
+  isdynamicTags?:boolean,
+  rules?:any,
+  isAvartar?:boolean
 }
 const props=withDefaults(defineProps<Props>(),{
   h:'对话框',
@@ -105,10 +107,12 @@ function commitFrom(){
   }
 
 }
+
 </script>
 
 <style scoped>
 .forml{
+  margin-top: 10px;
   margin-bottom: 50px;
 }
 </style>

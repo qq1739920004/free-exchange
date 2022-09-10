@@ -111,7 +111,6 @@ async function collection(e){
 }
 //点击跳转到评论区
 function toComment(){
-  console.log(2222222);
   emit('toComment');
 }
 </script>

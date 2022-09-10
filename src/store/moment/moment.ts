@@ -12,7 +12,7 @@ export const moment = defineStore('moment',{
     }
   },
   actions: {
-   //查看所有主标签
+   ////请求动态详情
     async getMomentDetail(momentId:number) {
       const result = await momentService.getMomentDetail(momentId)
       this.momentInfo=result[0]

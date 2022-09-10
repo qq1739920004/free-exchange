@@ -11,6 +11,7 @@ import {LFromItem,optionType} from '@/components/forml/types';
     id:1,
     label:'名字'
   },
+
   {
     type:'textarea',
     field:'introduce',

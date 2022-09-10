@@ -4,7 +4,7 @@ import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc) //扩展utc这个插件
 
 export function timePurify(time:string){
-  time=dayjs.utc(time).utcOffset(8, true).format()//新建的时间慢了8小时，北京时间比世界时间快8小时
+  time=dayjs.utc(time).utcOffset(0, true).format()//新建的时间慢了8小时，北京时间比世界时间快8小时
   const nowTime=dayjs()
   const timeValue=dayjs(time)
 

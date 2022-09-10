@@ -1,5 +1,5 @@
 <template>
-  <div class="search-taget">
+  <div class="search-taget" v-title="'搜索:'+route.query.searchValue">
     <nav-top :isSearch='true'  class="content"></nav-top>
     <moment-nav :isSearch='true' class="moment-nav"></moment-nav>
     <moment-list class="list"></moment-list>
@@ -10,10 +10,12 @@
 import momentItem from '@/view/home/main/content/components/mainContent/momentItem.vue';
 import momentNav from '@/view/home/main/content/components/mainContent/momentsNav.vue';
 import momentList from '@/view/home/main/content/components/mainContent/momentList.vue';
-
+import {useRoute} from 'vue-router';
 import navTop from '@/view/home/main/content/components/navTop.vue';
-</script>
 
+const route=useRoute()
+
+</script>
 <style scoped>
 @media (max-width:920px) {
   .content{

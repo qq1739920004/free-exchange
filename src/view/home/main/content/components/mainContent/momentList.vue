@@ -4,7 +4,7 @@
   <div @click="goMoment(item.id,index)"    v-for="(item,index) in momentsInfo" :key="item.id" class="item" >
     <div class="content">
       <div class="moment-header">
-        <span class="name" v-if="item.user.nameTure">{{item.user.name.nameTure}}</span>
+        <span class="name" v-if="item.user.nameTure">{{item.user.nameTure}}</span>
         <span v-if="item.createAt">{{timePurify(item.createAt)}}</span>
         <span v-if="item.mainLabel">{{item.mainLabel}}</span>
         <p class="label" ><el-tag class="tag" type='info' round size="small" v-for="item2 in item.label" :key="item2">{{item2}}</el-tag></p>
@@ -151,7 +151,6 @@ const loading = ref(false)
 const noMore = computed(() => !limit.value)
 
 async function load(){
-  console.log('哈哈哈哈');
   if(limit.value && disabled.value===false){
     loading.value=true
     disabled.value=true
@@ -160,7 +159,6 @@ async function load(){
     }
     pageInfo.value.end+=5
     await homeStore.addgetsMoment()
-    console.log(limit.value);
     loading.value=false
     disabledChange(1500)
   }

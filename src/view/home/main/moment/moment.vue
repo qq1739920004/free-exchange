@@ -1,5 +1,5 @@
 <template>
-  <div class="moment" v-if="momentDetail.user">
+  <div class="moment"  v-title="momentDetail.title" v-if="momentDetail.user">
     <moment-header :momentDetail=momentDetail></moment-header>
     <contentl class="contentl" @toComment='toComment'></contentl>
     <comment :momentId='momentId' ref="commentR"></comment>
@@ -40,7 +40,6 @@ function toComment(){
 
 //3.回到顶部的逻辑
 function goTop(){
-  console.log(222222);
   window.scrollTo({
     top:0,
     behavior:'smooth'

@@ -36,7 +36,6 @@ const list=ref<getmoments[]>()
 async function lcreate(){
   const result=await homeStore.rankingList(props.rankingName)
   list.value=result
-  console.log(result);
 }
 lcreate()
 

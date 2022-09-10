@@ -1,34 +1,36 @@
 <template>
     <el-upload
     class="avatar-uploader"
-    v-if="createMInfo?.id"
-    :action="props.url+'?momentId='+ createMInfo.id"
+    v-if="props.target=='picture' ? createMInfo?.id : true"
+    :action="props.target=='picture' ? props.url+'?momentId='+ createMInfo.id : props.url"
     :show-file-list="false"
     :on-success="handleAvatarSuccess"
     :before-upload="beforeAvatarUpload"
-    name="picture"
+    :name="props.target"
     :headers="headers"
   >
-    <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+    <img v-if="imageUrl" :src="imageUrl" :class="props.target" />
     <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
   </el-upload>
 </template>
 
 <script setup lang="ts">
-import {ref,defineProps} from 'vue';
+import {ref,defineProps,defineEmits} from 'vue';
 import { ElMessage } from 'element-plus'
 import type { UploadProps } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import {createM} from '@/store/createM/createM';
 import {storeToRefs} from 'pinia';
 const imageUrl=ref<string>()
-const props=defineProps(['url'])
+const emit=defineEmits(['successAvatar'])
+const props=defineProps(['url','target'])
 const createMStore=createM()
 const {createMInfo} = storeToRefs(createMStore)
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
   uploadFile
 ) => {
+  emit('successAvatar')
   imageUrl.value = URL.createObjectURL(uploadFile.raw!)
 }
 const headers= {
@@ -59,15 +61,19 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
   border-color: #409eff;
 }
 
-::v-deep.el-icon.avatar-uploader-icon {
+::v-deep.el-icon{
   font-size: 28px;
   color: #8c939d;
   width: 267px;
   height: 178px;
   text-align: center;
 }
-.avatar{
+.picture{
   width: 267px;
   height: 178px;
+}
+.avatar{
+  width: 200px;
+  height: 200px;
 }
 </style>

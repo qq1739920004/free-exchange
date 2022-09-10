@@ -48,7 +48,6 @@ export const home = defineStore('home',{
     //下拉加载更多动态
     async addgetsMoment():Promise<getmoments[]>{
       const templeng=this.momentsInfo?.length
-      console.log(2222222);
       if(this.pageInfo.category){
         const result = await homeService.getsCategoryMoment(this.pageInfo)
         for(let i=0;i<result?.length;i++){
@@ -72,7 +71,6 @@ export const home = defineStore('home',{
         }
       }
       else{
-        console.log(333);
         const result = await homeService.getsMoment(this.pageInfo)
         for(let i=0;i<result?.length;i++){
           if(!this.arrid.has(result[i].id))
@@ -88,7 +86,6 @@ export const home = defineStore('home',{
           }
         }
         if(this.momentsInfo?.length===this.pageInfo.end || (result?.length<5) || this.pageInfo.end-this.momentsInfo?.length>=5 || templeng===this.momentsInfo?.length){
-          console.log('结束了');
           this.limit=0
           return result
         }else{

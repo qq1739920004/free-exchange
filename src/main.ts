@@ -13,7 +13,10 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 const app = createApp(App)
 const pinia=createPinia()
-
+app.directive('title', (el, binding) => {
+  // 这会在 `mounted` 和 `updated` 时都调用
+  document.title=binding.value
+})
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }

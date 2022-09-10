@@ -59,7 +59,8 @@ function outLogin() {
 }
 //跳转到用户中心
 function goSpace(){
-  router.push('/free/space')
+  router.push({path:'/free/space',query:{id:props.userInfo.id}})
+
 }
 const createMStore=createM()
 const {createMInfo}=storeToRefs(createMStore)

@@ -40,7 +40,6 @@ export const createM = defineStore('createM', {
       const result = await createMService.setTempTitle(tempId,titlej)
       const result2 = await createMService.getTemp()
       this.createMInfo = result2[0]
-      console.log(this.createMInfo);
 
       return result
     },
@@ -52,7 +51,6 @@ export const createM = defineStore('createM', {
     //伪动态转真动态
     async tempBecome(tempId:string|number,mainInfo:mainLabelType,labels:string[]){
       const result=await createMService.tempBecome(tempId,mainInfo)
-      console.log(labels);
       if(labels.length){
         await createMService.addLabel(result,{label:labels})
       }

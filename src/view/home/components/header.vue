@@ -2,7 +2,7 @@
   <div class="header">
     <div class="user-box" v-if="isHome">
       <header-left v-if="!!token"   :userInfo="userInfo"></header-left>
-      <el-button type="primary" v-else @click="goLogin" class="loginbut">登录</el-button>
+      <el-button type="primary"  v-else @click="goLogin" class="loginbut">登录</el-button>
     </div>
     <div @click="goHome" :class="['logo-box',isHome?'':'logo-box2']">
       <img class="logo" src="@/assets/img/logo.svg" alt="" />
@@ -141,7 +141,7 @@ function goHome(){
     content: '';
     width: 200%;
     height: 200%;
-    background-color: rgba(64, 158, 255);
+    background-color: rgb(151, 202, 254);
     position: absolute;
     top: 50%;
     left: 50%;
