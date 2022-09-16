@@ -19,6 +19,9 @@ const router=useRouter()
 lcreate()
 async function lcreate() {
   const res=await loginStore.isLogin()
+  if(res===false){
+    router.go(0)
+  }
 }
 </script>
 

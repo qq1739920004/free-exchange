@@ -3,6 +3,8 @@ import type {AxiosInstance,AxiosResponse} from 'axios';
 import  {KRLconfig} from './types';
 import { ElLoading } from 'element-plus'
 import axiosRetry from 'axios-retry';
+import {useRouter} from 'vue-router';
+import { ElMessage, ElMessageBox } from 'element-plus'
 function axiosretry(instance:AxiosInstance,config:KRLconfig){
   let i=1
   axiosRetry(instance, {//传入axios实例
@@ -27,9 +29,11 @@ class KRLrequest{
   oneloding:number
   instance:AxiosInstance
   isLoding?:boolean
+  isdialog?:boolean
   constructor(config:KRLconfig){
     this.oneloding=1
     this.isLoding=false
+    this.isdialog=true
     this.instance=axios.create(config)
     axiosretry(this.instance,config)
     // 某个实例的拦截器
@@ -50,6 +54,12 @@ class KRLrequest{
         if(res?.statusText!='OK') return
         return res.data
       },(err:any)=>{
+        if(err.message.indexOf(401) && this.isdialog){
+          this.isdialog=false
+          localStorage.removeItem('user')
+          localStorage.removeItem('token')
+          return false
+        }
         console.log(err);
       }
     )

@@ -21,7 +21,8 @@ export const home = defineStore('home',{
       limit:1,
 
       rankingGive,
-      rankingCollection
+      rankingCollection,
+      f5:true
     }
   },
   actions: {
