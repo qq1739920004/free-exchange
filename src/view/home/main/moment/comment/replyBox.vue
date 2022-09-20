@@ -89,7 +89,8 @@ async function createComment(e){
 .ani-leave-active{
   animation:flipOutX .7s;
 }
-.ani{
-  margin-top: 20px;
+
+.replyB{
+  margin-top: 14px;
 }
 </style>

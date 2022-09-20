@@ -79,7 +79,8 @@ class createMService{
     })
   }
   //伪动态转真动态
-  tempBecome(tempId:string|number,mainInfo:mainLabelType){
+  tempBecome(tempId:string|number,mainInfo:mainLabelType,image:string[]){
+    mainInfo.image=image
     return krlrequest.request<number|string>({
       url:`/tempmoment/offer/${tempId}`,
       method:'post',

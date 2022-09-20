@@ -27,8 +27,8 @@
     </div>
 
   </div>
-  <p class="hint" v-show="loading">加载中......</p>
-  <p class="hint" v-show="!loading">不要再卷了，已经没有文章啦(ㄒoㄒ)~~</p>
+  <p class="hint" v-show="loading && limit">加载中......</p>
+  <p class="hint" v-show="!limit">不要再卷了，已经没有文章啦(ㄒoㄒ)~~</p>
 </template>
 
 <script setup lang="ts">

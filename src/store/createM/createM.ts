@@ -8,7 +8,8 @@ export const createM = defineStore('createM', {
       isHome: true,
       textValue:'我们会帮你自动保存,只要账号相同在哪里都可以继续编辑哦~',
       title:'请输入您的标题',
-      createMInfo
+      createMInfo,
+      image:[]
     }
   },
   actions: {
@@ -50,7 +51,8 @@ export const createM = defineStore('createM', {
     },
     //伪动态转真动态
     async tempBecome(tempId:string|number,mainInfo:mainLabelType,labels:string[]){
-      const result=await createMService.tempBecome(tempId,mainInfo)
+      console.log(this.image);
+      const result=await createMService.tempBecome(tempId,mainInfo,this.image)
       if(labels.length){
         await createMService.addLabel(result,{label:labels})
       }

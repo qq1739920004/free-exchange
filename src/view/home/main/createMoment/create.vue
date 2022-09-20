@@ -38,7 +38,7 @@ import {useRouter} from 'vue-router';
 const router=useRouter()
 let inputValue=ref<string>('请输入您的标题')
 const createMStore=createM()
-let {isHome,createMInfo}=storeToRefs(createMStore)
+let {isHome,createMInfo,image}=storeToRefs(createMStore)
 const tempId=localStorage.getItem('tempId')
 //这是动态的id
 let id=0
@@ -94,7 +94,11 @@ onBeforeUnmount(() => {
 let html2:string
 function handleChange(this:any,editor:any){
       const html:string = editor.getHtml()
+      const delectImage=editor.getElemsByType('image')
        if(html2!==html && createMInfo.value?.id && html!=='<p>点击全屏创作会体验更好哦</p>'){
+        image.value=delectImage.reduce((t,item) => {
+        return (t.push(item.src),t)
+      },[])
         debounce(createMStore.setTempContent,2000,[id,html])
       }
       html2=html

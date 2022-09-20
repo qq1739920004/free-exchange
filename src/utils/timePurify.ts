@@ -2,12 +2,17 @@ import dayjs from 'dayjs'
 //北京时间跟utc慢8小时
 import utc from 'dayjs/plugin/utc'
 dayjs.extend(utc) //扩展utc这个插件
-
-export function timePurify(time:string){
-  time=dayjs.utc(time).utcOffset(0, true).format()//新建的时间慢了8小时，北京时间比世界时间快8小时
-  const nowTime=dayjs()
-  const timeValue=dayjs(time)
-
+export function timePurify(timedate:string,format='default'){
+  let time:string |number
+  if(format==='default'){
+     time=dayjs.utc(timedate).format()//新建的时间慢了8小时，北京时间比世界时间快8小时
+  }
+  else{
+     time=dayjs.utc(timedate).utcOffset(8,true).format()//新建的时间慢了8小时，北京时间比世界时间快8小时
+  }
+  const timeValue=dayjs.utc(time)
+  const nowTime=dayjs.utc()
+console.log(time);
   const year=nowTime.diff(timeValue,'year')
   const month=nowTime.diff(timeValue,'month')
   const week=nowTime.diff(timeValue,'week')
@@ -15,6 +20,9 @@ export function timePurify(time:string){
   const hour=nowTime.diff(timeValue,'hour')
   const minute=nowTime.diff(timeValue,'minute')
   const second=nowTime.diff(timeValue,'second')
+  if (second<0){
+    second
+  }
   if(year!==0){
     return `${year}年前`
   }
@@ -24,7 +32,7 @@ export function timePurify(time:string){
   else if(week!==0){
     return `${week}周前`
   }
-  else if(date!==0){
+  else if(date!==0 && date>0){
     return `${date}天前`
   }
   else if(hour!==0){
@@ -33,10 +41,12 @@ export function timePurify(time:string){
   else if(minute!==0){
     return `${minute}分钟前`
   }
-  else if(second!==0){
-    return `${second}秒前`
+  else if(second>=0){
+    return `刚刚`
   }
-
+  else{
+    return '刚刚'
+  }
 
 }
 export function timePurify2(time:string,format:string){

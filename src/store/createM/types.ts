@@ -5,6 +5,7 @@ export interface createInfoType extends Array<any>{
   title: string
   updateAt: string
   user_id: number
+  image:string[]
 }
 export interface setHtmlType{
   content:string
@@ -14,4 +15,5 @@ export interface setTitleType{
 }
 export interface mainLabelType{
   mainLabel:string
+  image:string[]
 }

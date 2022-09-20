@@ -23,12 +23,11 @@
                   <div class="content">
                     <span class="name">{{item2.user.nameTure}} <span v-if="item2.toUser" ><span class="platext"> 回复: </span> {{item2.toUser}}</span></span>
                     <p class="content-value">{{item2.content}}</p>
-                    <span class=""><span class="reply"  @click="showBox(index2+'q')">回复 </span><span class="delete-item2" v-if="userInfo.id===item2.user.id" @click="deleteComment(item2.id)">删除</span></span>
+                    <span class="boxcline"><span class="reply"  @click="showBox(index2+'q')">回复 </span><span class="delete-item2" v-if="userInfo.id===item2.user.id" @click="deleteComment(item2.id)">删除</span></span>
                     <reply-box :belong=item.id :toCommentId=item2.id v-show="showSomeBox===index2+'q'" @lfocue="isfocue" :isshow="showSomeBox===index2+'q'" :momentId=props.momentId></reply-box>
                   </div>
                 </div>
-                <span class="time-item">{{timePurify(item2.createTime)}}</span>
-
+                <span class="time-item">{{timePurify(item2.createTime,'no')}}</span>
               </div>
               <div class="hidden-chidren" @click="hiddenChidren(index)">收起</div>
             </div>
@@ -342,4 +341,5 @@ if(localStorage.getItem('user')){
   ;
   }
 }
+
 </style>
