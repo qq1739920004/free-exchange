@@ -76,12 +76,12 @@ import momentsNav from './momentsNav.vue';
 
 // 1.点击推荐跟最新导航栏切换排序
 //推荐跟最新导航栏的决定样式变量
-//2.请求动态的代码
+//2.请求文章的代码
   const homeStore=home()
 const {pageInfo,limit}=storeToRefs(homeStore)
 
 
-//获取动态数据
+//获取文章数据
 const {momentsInfo}=storeToRefs(homeStore)
 //3.点赞，收藏的变色逻辑
 const isGive=ref<boolean>(false)

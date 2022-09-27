@@ -26,7 +26,7 @@ export const home = defineStore('home',{
     }
   },
   actions: {
-    //获取多条动态信息
+    //获取多条文章信息
     async getsMoment() {
       if(this.pageInfo.category){
         const result = await homeService.getsCategoryMoment(this.pageInfo,true,true)
@@ -46,7 +46,7 @@ export const home = defineStore('home',{
       }
 
     },
-    //下拉加载更多动态
+    //下拉加载更多文章
     async addgetsMoment():Promise<getmoments[]>{
       const templeng=this.momentsInfo?.length
       if(this.pageInfo.category){
@@ -94,12 +94,12 @@ export const home = defineStore('home',{
         }
       }
     },
-    //点赞动态，或者点赞评论
+    //点赞文章，或者点赞评论
   async startGive(momentId:number|string,commentId?:number){
       const result=await homeService.startGive(momentId,commentId)
       return result
   },
-  //收藏动态
+  //收藏文章
   async startCollection(momentId:number|string){
     const result=await homeService.startCollection(momentId)
     return result

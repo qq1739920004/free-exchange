@@ -1,10 +1,9 @@
 <template>
   <div id="content">
     <div id="editor-container">
-      <el-button type="primary" class="save" :disabled='isSave' @click="saveData">保存</el-button>
-
+      <el-button type="success" class="save" size="large" @click="saveData">确认修改</el-button>
       <div id="title-container">
-        <input placeholder="请输入你的标题" @input="titleChange" v-model="inputValue" />
+        <input placeholder="请输入你的标题" @input="titleChange"  v-model="inputValue" />
       </div>
       <div id="editor-text-area">
         <Toolbar
@@ -31,42 +30,29 @@
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import { onBeforeUnmount, ref, shallowRef, onMounted,watch,defineProps} from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import {createM} from '@/store/createM/createM';
+import {changeM} from '@/store/changeM/changeM';
 import {storeToRefs} from 'pinia';
 import {debounce} from '@/utils/debounce';
 import {BASE_URL} from '@/service/request/config';
-import {useRouter} from 'vue-router';
+import {useRouter,useRoute} from 'vue-router';
 //页面逻辑
-const props=defineProps(['id'])
+const changeMStore=changeM()
+const {title,content}=storeToRefs(changeMStore)
+const route=useRoute()
 const router=useRouter()
-let inputValue=ref<string>('请输入您的标题')
-const createMStore=createM()
-let {isHome,createMInfo,image,isSave}=storeToRefs(createMStore)
-const tempId=localStorage.getItem('tempId')
-//这是文章的id
-let id=0
-if ( tempId ){
-  id=createMInfo.value?.id || parseInt(tempId)
+const inputValue=ref('')
+const valueHtml = ref('')
+const id=ref(route.params.momentId)
+createL()
+async function createL(){
+ await changeMStore.getMoment(id.value)
+ inputValue.value=title.value
+ valueHtml.value=content.value
 }
-else{
-  // 如果没有id则返回首页让用户重新点击创建文章，因为id是在那里获取的，如果没有则是用户直接链接访问
-  router.push('/free')
-}
-//拿到此用户上次编辑的信息
-    createMStore.getTemp().then(()=>{
-      valueHtml.value=createMInfo.value?.content
-      inputValue.value=createMInfo.value?.title
-  })
-
-onMounted(()=>{
-  isHome.value=false
-
-})
 // 富文本逻辑
 const mode = ref<string>('default')
 const editorRef = shallowRef()
 // 内容 HTML
-const valueHtml = ref()
 let toolbarConfig: any = {}
 toolbarConfig.excludeKeys = [
   // 排除菜单组，写菜单组 key 的值即可
@@ -75,7 +61,7 @@ toolbarConfig.excludeKeys = [
 let MENU_CONF:any={}
 const editorConfig = { placeholder: '点击全屏创作会体验更好哦',MENU_CONF}
 editorConfig.MENU_CONF['uploadImage'] = {
-      server: `${BASE_URL}/upload/temp/picture?momentId=${id}`,
+      server: `${BASE_URL}/upload/temp/picture?momentId=${id.value}`,
       fieldName: 'picture',
       headers: {
         authorization:localStorage.getItem('token')
@@ -89,34 +75,36 @@ onBeforeUnmount(() => {
   const editor = editorRef.value
   if (editor == null) return
   editor.destroy()
-  isHome.value=true
 })
-
 //输入改变触发
-let html2:string
 let html:string
 function handleChange(this:any,editor:any){
-      isSave.value=false
       html= editor.getHtml()
-      const delectImage=editor.getElemsByType('image')
-       if(html2!==html && createMInfo.value?.id && html!=='<p>点击全屏创作会体验更好哦</p>'){
-        image.value=delectImage.reduce((t,item) => {
-        return (t.push(item.src),t)
-      },[])
-        debounce(createMStore.setTempContent,2000,[id,html])
-      }
-      html2=html
+      console.log(html);
 }
 //标题变化
 function titleChange(this:any){
-      isSave.value=false
-      if(createMInfo.value?.id && inputValue.value!=='请输入您的标题'){
-        debounce(createMStore.setTempTitle,2000,[id,inputValue.value])
-      }
+      console.log(inputValue.value);
 }
+
 function saveData(){
-  createMStore.setTempContent(id,html)
-  createMStore.setTempTitle(id,inputValue.value)
+   ElMessageBox.confirm(
+    '确认保存后不可回退哦~',
+    '修改文章',
+    {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  ).then(() => {
+      changeMStore.setMoment(id.value,html,inputValue.value).then(()=>{
+        ElMessage({
+        type: 'success',
+        message: '保存成功！',
+      })
+      router.push(`/free/moment/${id.value}`)
+      })
+    })
 }
 
 
@@ -169,6 +157,7 @@ function saveData(){
   line-height: 1;
 }
 .save{
+  margin-bottom: 50px;
 }
 #editor-text-area {
   min-height: 850px;

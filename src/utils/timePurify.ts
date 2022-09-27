@@ -12,7 +12,6 @@ export function timePurify(timedate:string,format='default'){
   }
   const timeValue=dayjs.utc(time)
   const nowTime=dayjs.utc()
-console.log(time);
   const year=nowTime.diff(timeValue,'year')
   const month=nowTime.diff(timeValue,'month')
   const week=nowTime.diff(timeValue,'week')

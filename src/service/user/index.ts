@@ -11,7 +11,7 @@ enum userPath{
   getUserCollect='/users/collection',//获取用户收藏
   getUserPublish='/users/publish',//获取用户创建的文章
   getUserInfo='/users/userInfo',//获取用户信息
-  deleteMoment='/moment/'//删除用户动态
+  deleteMoment='/moment/'//删除用户文章
 }
 class userService{
 //修改用户信息（名字，个人简介）
@@ -64,7 +64,7 @@ getUserInfo(id:number | string){
     }
   })
 }
-//删除用户动态
+//删除用户文章
 deleteMoment(id:number){
   return krlrequest.request({
     url:userPath.deleteMoment+id,

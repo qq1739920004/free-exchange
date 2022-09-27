@@ -31,7 +31,7 @@ const props=defineProps({
 
   })
 
-//2.请求动态的代码
+//2.请求文章的代码
   const homeStore=home()
   const { pageInfo }=storeToRefs(homeStore)
   const route=useRoute()
@@ -53,7 +53,7 @@ const props=defineProps({
       homeStore.getsMoment()
     }
   }
-  //第一次调用请求推荐的动态
+  //第一次调用请求推荐的文章
 getsMoment()
 
 

@@ -2,9 +2,9 @@ import {krlrequest} from '../index';
 import {createType,pageType} from './type';
 import {getmoments} from '@/store/home/types';
 enum homePath{
-  createdMoment='/moment',//创建动态
-  getsMoment='/moment',//查看多条动态
-  getsCategoryMoment='/moment/all/category',//请求某一分类的动态
+  createdMoment='/moment',//创建文章
+  getsMoment='/moment',//查看多条文章
+  getsCategoryMoment='/moment/all/category',//请求某一分类的文章
   startGive='/give/',//点赞
   startCollection='/collection'//收藏
 }
@@ -16,7 +16,7 @@ class homeService{
       data:createInfo,
     })
   }
-  //请求动态
+  //请求文章
   getsMoment(page:pageType,isLoding=false,isretry=false){
     return krlrequest.request<getmoments[]>({
       url:homePath.getsMoment,
@@ -27,7 +27,7 @@ class homeService{
 
     })
   }
-  //请求某一分类的动态
+  //请求某一分类的文章
   getsCategoryMoment(page:pageType,isLoding=false,isretry=false){
     return krlrequest.request<getmoments[]>({
       url:homePath.getsCategoryMoment,
@@ -37,7 +37,7 @@ class homeService{
       isretry:isretry
     })
   }
-  //点赞动态
+  //点赞文章
   startGive(momentId:number|string,commentId?:number | undefined){
     if(commentId){
       return krlrequest.request({
@@ -55,7 +55,7 @@ class homeService{
     }
 
   }
-  //收藏动态
+  //收藏文章
   startCollection(momentId:number|string){
     return krlrequest.request({
       url:homePath.startCollection,

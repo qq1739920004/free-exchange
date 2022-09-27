@@ -18,7 +18,7 @@ import contentl from './content.vue';
 import momentHeader from './momentHeader.vue';
 import comment from './comment.vue';
 
-// 1.获取动态详情，赋值
+// 1.获取文章详情，赋值
 const momentDetail=ref<getmoments>('')
 const route=useRoute()
 const {momentId}=route.params

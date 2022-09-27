@@ -7,6 +7,7 @@ export const createM = defineStore('createM', {
     return {
       isHome: true,
       textValue:'我们会帮你自动保存,只要账号相同在哪里都可以继续编辑哦~',
+      isSave:true,
       title:'请输入您的标题',
       createMInfo,
       image:[]
@@ -23,7 +24,7 @@ export const createM = defineStore('createM', {
       }
       return result[0]
     },
-    //修改动态
+    //修改文章
     async setTempContent(tempId:string|number,content:string){
       const contentj:setHtmlType={
         content:content
@@ -49,7 +50,7 @@ export const createM = defineStore('createM', {
       const result = await createMService.deleteTemp(tempId)
       return result
     },
-    //伪动态转真动态
+    //伪文章转真文章
     async tempBecome(tempId:string|number,mainInfo:mainLabelType,labels:string[]){
       console.log(this.image);
       const result=await createMService.tempBecome(tempId,mainInfo,this.image)
@@ -57,7 +58,7 @@ export const createM = defineStore('createM', {
         await createMService.addLabel(result,{label:labels})
       }
     },
-  //给动态添加标签
+  //给文章添加标签
   // async addLabel(label){
   //   const result=await createMService.tempBecome(tempId,mainInfo)
   //   console.log(result);

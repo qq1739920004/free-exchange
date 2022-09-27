@@ -17,7 +17,7 @@ const routes:RouteRecordRaw[]=[
       {path:'moment/:momentId',name:'moment',component:()=>import('@/view/home/main/moment/moment.vue')},
       {path:'moment/search',name:'search',component:()=>import('@/view/home/main/searchTaget/searchTaget.vue')},
       {path:'space',name:'space',component:()=>import('@/view/home/main/userSpace/userSpace.vue')},
-
+      {path:'change/:momentId',name:'change',component:()=>import('@/view/home/main/content/changeMoment/changeMoment.vue')},
     ]
   },
   {

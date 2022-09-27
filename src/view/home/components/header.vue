@@ -14,9 +14,10 @@
     </div>
     <div class="rightbut"  v-if="!isHome">
       <el-button type="primary" class="but" @click="publish">发表文章</el-button>
-      <el-button type="danger" @click="deleteAll" class="but">清空编辑</el-button>
+      <el-button type="danger" @click="deleteAll" class="but">删除编辑</el-button>
       <!-- 发表文章的逻辑 -->
     </div>
+
       <ldialog v-if="isReset" @commit-from="commitFrom" :formLabelAlign="formLabelAlign" :isdynamicTags="true"  v-model:dynamic-tags="dynamicTags" v-model:dialog-visible="dialogVisible"   v-model:form-data="formData" h="发表文章"></ldialog>
 
   </div>
@@ -45,7 +46,7 @@ function goLogin(){
 }
 
 const createMStore=createM()
-const {createMInfo}=storeToRefs(createMStore)
+const {createMInfo,isSave}=storeToRefs(createMStore)
 
 let {isHome,textValue}=storeToRefs(createMStore)
 //清空编辑器触发
@@ -82,6 +83,13 @@ let {isHome,textValue}=storeToRefs(createMStore)
 const isReset=ref<boolean>(false)
 //点击发表文章触发
 async function publish(){
+  if(!isSave.value){
+    ElMessage({
+        type: 'error',
+        message: '还未保存',
+      })
+      return
+  }
   isReset.value=true
  await createMStore.getTemp()
   if(createMInfo.value.title.length<8){
@@ -103,7 +111,7 @@ async function publish(){
 
 }
 
-//伪动态转正
+//伪文章转正
 async function commitFrom(){
     await createMStore.tempBecome(createMInfo.value.id,formData.value,Object.values(dynamicTags.value))
     localStorage.removeItem('tempId')

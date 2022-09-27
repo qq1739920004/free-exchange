@@ -66,7 +66,7 @@ export const user = defineStore('user',{
           this.userInfo=result
           return result
     },
-    //删除用户动态
+    //删除用户文章
     async deleteMoment(id:number,index:number){
       const result = await userService.deleteMoment(id)
       this.userCollect.splice(index,1)

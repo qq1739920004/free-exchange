@@ -1,5 +1,6 @@
 <template>
-  <div :infinite-scroll-delay='1500'     v-infinite-scroll="load"   :infinite-scroll-disabled="disabled" class="list">
+<div v-if="isShow">
+  <div :infinite-scroll-delay='1500'  v-infinite-scroll="load"   :infinite-scroll-disabled="disabled" class="list">
     <div class="itembox" @click="goMoment(item.momentAll ? item.momentAll[0].id : item.id)"  v-for="(item,index) in userCollect" :key="item.momentAll ? item.momentAll[0].id : item.id">
       <div class="item">
         <div class="item-left">
@@ -17,7 +18,11 @@
             </div>
           </div>
         </div>
-        <span class="item-right" v-show="route.query.id==id2 && method=='用户文章'" @click="deleteMoment(item.momentAll ? item.momentAll[0].id : item.id,index,$event)">删除</span>
+        <div class="item-right" v-show="route.query.id==id2 && method=='用户文章'">
+          <span   @click="deleteMoment(item.momentAll ? item.momentAll[0].id : item.id,index,$event)">删除</span>
+          <span   @click="goChangeMoment(item,$event)">修改文章</span>
+
+        </div>
       </div>
       <div class="but">
         <span class="butchidren iconbox" @click="collection(item.momentAll ? item.momentAll[0].id : item.id,index,$event)"  :class="{isActive:item.isCollection}"><span class="iconspan" :class="{activeaa:item.isCollection && isonecollection==index }"></span><StarFilled class="icon gicon"/>{{item.collectionCount}}</span>
@@ -29,6 +34,7 @@
   </div>
   <p class="hint" v-show="loading && limit">加载中......</p>
   <p class="hint" v-show="!limit">不要再卷了，已经没有文章啦(ㄒoㄒ)~~</p>
+</div>
 </template>
 
 <script setup lang="ts">
@@ -109,6 +115,7 @@ async function collection(id:string | number,index:number,e){
 const disabled=ref(true)
 const loading = ref(false)
 async function load(){
+  console.log(333333333);
   if((props.navtext!==method.value && disabled.value===false) || userCollect.value?.length<5) return
     loading.value=true
     disabled.value=true
@@ -124,12 +131,13 @@ function disabledChange(time:number){
     disabled.value=false
     },time)
 }
+let isShow=ref(false)
 onMounted(() => {
   userStore.$reset()
   uid.value=route.query.id
-
   userStore.getUserInfo(route.query.id)
   disabledChange(1500)
+  isShow.value=true
 })
 //4.打开文章详情
 const momentStore=moment()
@@ -152,12 +160,20 @@ async function goThisUser(userId,e){
   userStore.getUserInfo(userId)
   await userStore.getUserCollect()
 }
-// 6.删除用户动态
+//7.修改文章
+function goChangeMoment(item:any,e){
+  e.stopPropagation()
+   let routeUrl = router.resolve({
+          path:`/free/change/${item.id}`,
+     });
+     window.open(routeUrl.href, '_blank');
+}
+// 6.删除用户文章
 async function deleteMoment(id:number,index,e) {
   e.stopPropagation()
   ElMessageBox.confirm(
     '你确定要删除此文章?一旦删除不可恢复哦',
-    'Warning',
+    '删除文章',
     {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
@@ -225,13 +241,18 @@ async function deleteMoment(id:number,index,e) {
   justify-content: space-between;
   .item-right{
     display: flex;
-    align-items:center;
+    flex-direction: column;
+    align-items: center;
+    justify-content:center;
     font-size: 14px;
-    margin-right: 20px;
+    margin-right: 15px;
     color: #b4b5b5;
     cursor: pointer;
-    &:hover{
-      color: @activeColor;
+      span{
+      margin-bottom: 10px;
+      &:hover{
+        color: @activeColor;
+      }
     }
   }
   .item-left{

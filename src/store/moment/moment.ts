@@ -12,19 +12,19 @@ export const moment = defineStore('moment',{
     }
   },
   actions: {
-   ////请求动态详情
+   ////请求文章详情
     async getMomentDetail(momentId:number) {
       const result = await momentService.getMomentDetail(momentId)
       this.momentInfo=result[0]
       return result[0]
     },
-    //请求此动态评论
+    //请求此文章评论
   async getComment(momentId:number){
     const result = await momentService.getComment(momentId)
       this.commentInfos=result
       return result
     },
-  //评论动态
+  //评论文章
   async createComment(momentId:number,content:string){
     const result = await momentService.createComment(momentId,content)
                     await this.getComment(momentId)
