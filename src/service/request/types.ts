@@ -10,7 +10,8 @@ interface KRLinterceptor<T=AxiosResponse>{
 interface KRLconfig<T=AxiosResponse> extends AxiosRequestConfig{
   interceptor?:KRLinterceptor<T>
   isLoding?:boolean,
-  isretry?:boolean
+  isretry?:boolean,
+  isdialog?:boolean
 }
 
 

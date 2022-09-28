@@ -2,7 +2,7 @@
 <div class="user">
   <div :class="route.query.id==id2 ? 'user-info' :'user-center'" v-if="userInfo?.avatar_url">
       <div class='userBox'>
-        <div class="img-box" @mouseenter="isShowText=true" @click="changeImage" @mouseleave="isShowText=false">
+        <div :class="['img-box',{'noUserTrue':(route.query.id!=id2)}]" @mouseenter="isShowText=true" @click="changeImage"   @mouseleave="isShowText=false">
         <img :class="['path',{'path2':isShowText}]"   :src="userInfo?.avatar_url" alt=""><div v-show="isShowText"  class="pathText">更换头像</div>
         </div>
         <div class="usercontent">
@@ -233,6 +233,9 @@ async function commitFromAvartar(){
   margin-right: 10px;
   font-size: 16px;
 
+}
+.noUserTrue{
+  pointer-events: none;
 }
 .introduce{
   text-align: start;

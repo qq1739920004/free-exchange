@@ -4,7 +4,7 @@
   <div @click="goMoment(item.id,index)"    v-for="(item,index) in momentsInfo" :key="item.id" class="item" >
     <div class="content">
       <div class="moment-header">
-        <span class="name" v-if="item.user.nameTure">{{item.user.nameTure}}</span>
+        <span class="name" @click="goUserspace(item.user.id,$event)" v-if="item.user.nameTure">{{item.user.nameTure}}</span>
         <span v-if="item.createAt">{{timePurify(item.createAt)}}</span>
         <span v-if="item.mainLabel">{{item.mainLabel}}</span>
         <p class="label" ><el-tag class="tag" type='info' round size="small" v-for="item2 in item.label" :key="item2">{{item2}}</el-tag></p>
@@ -160,13 +160,18 @@ async function load(){
     pageInfo.value.end+=5
     await homeStore.addgetsMoment()
     loading.value=false
-    disabledChange(1500)
+    disabledChange(1000)
   }
 }
 function disabledChange(time:number){
   setTimeout(()=>{
     disabled.value=false
     },time)
+}
+//6.跳转到用户中心
+function goUserspace(userId:number,e){
+  e.stopPropagation()
+  router.push({path:'/free/space',query:{id:userId}})
 }
 onMounted(() => {
   disabledChange(2000)

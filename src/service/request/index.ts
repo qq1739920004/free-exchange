@@ -3,8 +3,6 @@ import type {AxiosInstance,AxiosResponse} from 'axios';
 import  {KRLconfig} from './types';
 import { ElLoading } from 'element-plus'
 import axiosRetry from 'axios-retry';
-import {useRouter} from 'vue-router';
-import { ElMessage, ElMessageBox } from 'element-plus'
 function axiosretry(instance:AxiosInstance,config:KRLconfig){
   let i=1
   axiosRetry(instance, {//传入axios实例
@@ -32,10 +30,10 @@ class KRLrequest{
   isdialog?:boolean
   constructor(config:KRLconfig){
     this.oneloding=1
-    this.isLoding=false
-    this.isdialog=true
+    this.isLoding=false//请求过程中是否需要出现loding加载图标
+    this.isdialog=false//出现401是否要刷新页面
     this.instance=axios.create(config)
-    axiosretry(this.instance,config)
+    axiosretry(this.instance,config)//自己封装的一个请求超时会重新请求的函数
     // 某个实例的拦截器
     this.instance.interceptors.request.use(config.interceptor?.requestInterceptorLaunch,config.interceptor?.requestInterceptorCatch)
     this.instance.interceptors.response.use(config.interceptor?.responseInterceptorLaunch,config.interceptor?.responseInterceptorCatch)
@@ -73,6 +71,9 @@ class KRLrequest{
       if (config.isLoding) {
         this.isLoding = config.isLoding
       }
+      if (config.isdialog) {
+        this.isdialog = config.isdialog
+      }
       if (this.isLoding) {
        Loading = ElLoading.service({
           lock: true,
@@ -101,10 +102,8 @@ class KRLrequest{
           Loading.close()
           this.isLoding=false
         }
-
       }
         resolve(res)
-
       }).catch((err:any)=>{
         reject(err)
       })

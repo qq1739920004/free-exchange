@@ -30,13 +30,14 @@ class loginService{
     return krlrequest.request({
       url:loginPath.register,
       method:'post',
-      data:userData
+      data:userData,
     })
   }
   isLogin(){
     return krlrequest.request<userInfoType>({
       url:loginPath.isLogin,
       method:'get',
+      isdialog:true
     })
   }
 
