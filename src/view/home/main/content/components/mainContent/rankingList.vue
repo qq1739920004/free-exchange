@@ -18,7 +18,9 @@
           <img v-if="index===2" class="honor" src="~@/assets/img/季军.png" alt="">
           <span class="order">{{index+1}}</span>
           <span class="vice-title-title title-item">{{item.title}}</span>
-          <span class="number">{{item.giveCount}}</span>
+          <span class="number"  v-if="props.rankingName=='giveCount'">{{item.giveCount}}</span>
+          <span class="number"  v-if="props.rankingName=='collectionCount'">{{item.collectionCount}}</span>
+
         </div>
       </div>
     </el-card>

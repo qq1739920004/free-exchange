@@ -89,7 +89,7 @@ function loginChange() {
 }
  @font-face {
   font-family: 'yy';
-  src: url('~@/assets/圆体.ttf');
+  src: url('~@/assets/yt.ttf');
 }
 .title {
     font-family: 'yy';

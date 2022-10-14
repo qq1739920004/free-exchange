@@ -42,3 +42,14 @@ export interface getmoments extends Set<itemMoments>{
   cover?:string;
   content?:string
 }
+export interface getRanking{
+  id: number;
+  title: string;
+  ct: string;
+  createAt?: string;
+  updateAt?: string;
+  giveCount: number;
+  collectionCount: number;
+  content?:string
+}
+

@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia'
 import homeService from '@/service/home/index'
-import {getmoments} from '@/store/home/types';
+import {getmoments,getRanking} from '@/store/home/types';
 import type { pageType } from '@/service/home/type'
 let pageInfo:pageType
 let momentsInfo:getmoments[]
-let rankingGive:getmoments[]
-let rankingCollection:getmoments[]
+let rankingGive:getRanking[]
+let rankingCollection:getRanking[]
 export const home = defineStore('home',{
   state: () => {
     return {
@@ -106,7 +106,7 @@ export const home = defineStore('home',{
   },
   //获取收藏或者点赞排行榜数据
   async rankingList(rankingName:string){
-    const result = await homeService.getsMoment({
+    const result = await homeService.getRanking({
       start:0,
       end:10,
       ranking:rankingName

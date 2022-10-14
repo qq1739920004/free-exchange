@@ -1,12 +1,13 @@
 import {krlrequest} from '../index';
 import {createType,pageType} from './type';
-import {getmoments} from '@/store/home/types';
+import {getmoments,getRanking} from '@/store/home/types';
 enum homePath{
   createdMoment='/moment',//创建文章
   getsMoment='/moment',//查看多条文章
   getsCategoryMoment='/moment/all/category',//请求某一分类的文章
   startGive='/give/',//点赞
-  startCollection='/collection'//收藏
+  startCollection='/collection',//收藏
+  getRanking='/ranking'
 }
 class homeService{
   create(createInfo:createType){
@@ -24,7 +25,6 @@ class homeService{
       params:page,
       isLoding:isLoding,
       isretry:isretry
-
     })
   }
   //请求某一分类的文章
@@ -63,6 +63,15 @@ class homeService{
       data:{
         "momentId":momentId
       }
+    })
+  }
+  //查看排行榜
+  getRanking(page:pageType){
+    console.log(page);
+    return krlrequest.request<getRanking[]>({
+      url:homePath.getRanking,
+      method:'get',
+      params:page
     })
   }
 
