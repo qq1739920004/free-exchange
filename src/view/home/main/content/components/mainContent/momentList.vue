@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref,defineEmits,computed, onMounted,nextTick} from 'vue';
+import {ref,defineEmits,computed, onMounted,nextTick,watch} from 'vue';
 import {getmoments} from '@/store/home/types';
 import {storeToRefs} from 'pinia';
 import {home} from '@/store/home/home';
@@ -173,6 +173,14 @@ function goUserspace(userId:number,e){
   e.stopPropagation()
   router.push({path:'/free/space',query:{id:userId}})
 }
+// 7.修复了切换分类，点赞跟收藏的动画会执行一次的bug
+ watch(
+      momentsInfo,
+      (newValue) => {
+        isoneGive.value=-1//刷新界面的时候不许动画
+        isonecollection.value=-1
+      }
+    )
 onMounted(() => {
   disabledChange(2000)
 })
