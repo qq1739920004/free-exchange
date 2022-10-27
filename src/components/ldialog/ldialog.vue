@@ -2,11 +2,11 @@
      <el-dialog
     v-model="dialogChange"
     :title="props.h"
-    width="30%"
+    :width="props.dynamicTags?.length ? '550px' :'500px'"
   >
   <div class="forml">
-    <forml v-if="props.dynamicTags?.length" :formLabelAlign="props.formLabelAlign" lwidth="180px" v-model:dynamic-tags="dynamicTags"   v-model:form-data="formData"></forml>
-    <forml  v-else :rules=rules  @successAvatar=commitFrom :formLabelAlign="props.formLabelAlign" lwidth="180px"    v-model:form-data="formData"></forml>
+    <forml v-if="props.dynamicTags?.length" :formLabelAlign="props.formLabelAlign" lwidth="130px" v-model:dynamic-tags="dynamicTags"   v-model:form-data="formData"></forml>
+    <forml  v-else :rules=rules  @successAvatar=commitFrom :formLabelAlign="props.formLabelAlign" lwidth="100px"    v-model:form-data="formData"></forml>
   </div>
      <template v-if="props.isdynamicTags">
       <tagsl v-if="props.isdynamicTags" v-model:dynamic-tags="dynamicTags"></tagsl>
@@ -114,5 +114,7 @@ function commitFrom(){
 .forml{
   margin-top: 10px;
   margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
 }
 </style>

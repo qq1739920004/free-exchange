@@ -3,7 +3,7 @@
   <div :class="route.query.id==id2 ? 'user-info' :'user-center'" v-if="userInfo?.avatar_url">
       <div class='userBox'>
         <div :class="['img-box',{'noUserTrue':(route.query.id!=id2)}]" @mouseenter="isShowText=true" @click="changeImage"   @mouseleave="isShowText=false">
-        <img :class="['path',{'path2':isShowText}]"   :src="userInfo?.avatar_url" alt=""><div v-show="isShowText"  class="pathText">更换头像</div>
+        <img :class="['path',{'path2':isShowText}]"   :src="userInfo?userInfo.avatar_url+'?t='+randomAvatar:undefined" alt=""><div v-show="isShowText"  class="pathText">更换头像</div>
         </div>
         <div class="usercontent">
           <h1 class="name">{{userInfo?.nameTure}}</h1>
@@ -71,7 +71,7 @@ const id2=JSON.parse(localStorage.getItem('user')).id
 // 1.获取基本信息
 const userStore=user()
 
-const {userInfo}=storeToRefs(userStore)
+const {userInfo,randomAvatar}=storeToRefs(userStore)
 async function lcreate(){
   await userStore.getUserInfo(route.query.id)
   formData.value.nameTrue=userInfo.value.nameTure
@@ -158,7 +158,8 @@ function changeImage(){
 }
 
 async function commitFromAvartar(){
-  lcreate()
+  await lcreate()
+  userStore.randomChange()
    ElMessage({
     message: '修改成功',
     type: 'success',

@@ -26,7 +26,7 @@
       @click="goSpace"
       class="avatar"
       v-if="props.userInfo"
-      :src="props.userInfo.path"
+      :src="props.userInfo.path+'?t='+randomAvatar"
       alt=""
     />
     <el-button
@@ -46,7 +46,11 @@ import { userInfoType } from '@/store/login/types'
 import { useRouter } from 'vue-router'
 import {createM} from '@/store/createM/createM';
 import {storeToRefs} from 'pinia';
+import {user} from '@/store/user/user';
 
+const userStore=user()
+
+const {randomAvatar}=storeToRefs(userStore)
 const props = defineProps<{
   userInfo: userInfoType
 }>()

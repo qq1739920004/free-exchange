@@ -11,6 +11,7 @@ export const user = defineStore('user',{
   state: () => {
     return {
       method:'用户收藏',
+      randomAvatar:1,
       userCollect,
       pageInfo:{
         start:0,
@@ -71,6 +72,9 @@ export const user = defineStore('user',{
       const result = await userService.deleteMoment(id)
       this.userCollect.splice(index,1)
       return result
+    },
+    randomChange(){
+      this.randomAvatar=Math.random()
     }
   }
 }

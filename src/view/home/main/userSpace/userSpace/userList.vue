@@ -5,7 +5,7 @@
       <div class="item">
         <div class="item-left">
           <div class="user-img">
-            <img @click="goThisUser(item.useru?.id || item.user.id,$event)" class="user-image" :src="item.useru?.avatarUrl || item.user.avatar" alt="">
+            <img @click="goThisUser(item.useru?.id || item.user.id,$event)" class="user-image" :src="(item.useru?item.useru.avatarUrl+'?t='+randomAvatar:undefined )|| item.user.avatar+'?t='+randomAvatar" alt="">
           </div>
           <div class="item-info">
             <div class="item-user">
@@ -58,7 +58,7 @@ const id2=JSON.parse(localStorage.getItem('user')).id
 const homeStore=home()
 
 const userStore=user()
-const {userCollect,limit,pageInfo,method,uid} =storeToRefs(userStore)
+const {userCollect,limit,pageInfo,method,uid,randomAvatar} =storeToRefs(userStore)
 
 
 //2.点赞，收藏的变色逻辑
