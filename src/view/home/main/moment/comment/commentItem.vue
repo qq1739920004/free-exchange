@@ -301,8 +301,8 @@ if(localStorage.getItem('user')){
   margin-bottom: 20px;
 }
 .name{
-  font-size: 17px;
-  color: rgb(190, 189, 189);
+  font-size: 15px;
+  color: rgb(141, 140, 140);
 }
 .user-info{
   position: relative;
