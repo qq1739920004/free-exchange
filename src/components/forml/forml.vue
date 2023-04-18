@@ -34,10 +34,10 @@
       <el-input  :placeholder="item.placeholder" minlength="30" :maxlength="item.otherOptions?.maxleng || 200" :autosize="{ minRows: 5}" show-word-limit type="textarea" v-model="formData[`${item.field}`]" />
     </template>
     <template v-if="item.type=='upload'">
-      <upload-picture url="http://43.138.182.103:8888/upload/temp/picture/cover" target="picture"></upload-picture>
+      <upload-picture :url="base_url+'/upload/temp/picture/cover'" target="picture"></upload-picture>
     </template>
     <template v-if="item.type=='avatar'">
-      <upload-picture @successAvatar=successAvatar url="http://43.138.182.103:8888/upload/avatar" target="avatar"></upload-picture>
+      <upload-picture @successAvatar=successAvatar :url="base_url+'/upload/temp/upload/avatar'"  target="avatar"></upload-picture>
     </template>
     </el-form-item>
 
@@ -51,7 +51,9 @@
 import {defineProps,withDefaults,ref,defineEmits,watchEffect,watch} from 'vue';
 import {LFromItem} from './types';
 import uploadPicture from '@/components/uploadPicture/uploadPicture.vue'
-
+console.log('123');
+console.log(process.env);
+let base_url=process.env.VUE_APP_BASE_URL
 interface Props{
   formLabelAlign:LFromItem[]
   formData:any

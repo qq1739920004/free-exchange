@@ -72,6 +72,7 @@ const id2=JSON.parse(localStorage.getItem('user')).id
 const userStore=user()
 
 const {userInfo,randomAvatar}=storeToRefs(userStore)
+console.log('userInfo.avatar_url',userInfo);
 async function lcreate(){
   await userStore.getUserInfo(route.query.id)
   formData.value.nameTrue=userInfo.value.nameTure

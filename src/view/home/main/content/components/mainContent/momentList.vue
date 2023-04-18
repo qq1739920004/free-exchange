@@ -83,6 +83,7 @@ const {pageInfo,limit}=storeToRefs(homeStore)
 
 //获取文章数据
 const {momentsInfo}=storeToRefs(homeStore)
+console.log(momentsInfo);
 //3.点赞，收藏的变色逻辑
 const isGive=ref<boolean>(false)
 const isCollect=ref<boolean>(false)
