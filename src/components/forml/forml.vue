@@ -37,7 +37,7 @@
       <upload-picture :url="base_url+'/upload/temp/picture/cover'" target="picture"></upload-picture>
     </template>
     <template v-if="item.type=='avatar'">
-      <upload-picture @successAvatar=successAvatar :url="base_url+'/upload/temp/upload/avatar'"  target="avatar"></upload-picture>
+      <upload-picture @successAvatar=successAvatar :url="base_url+'/upload/avatar'"  target="avatar"></upload-picture>
     </template>
     </el-form-item>
 
